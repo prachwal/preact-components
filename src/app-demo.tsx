@@ -68,18 +68,20 @@ function AppContent() {
                 { value: 'forest', label: '🌲 Forest' },
                 { value: 'ocean', label: '🌊 Ocean' },
               ]}
+              aria-label="Select theme variant"
             />
             <Button
               variant="outline"
               size="sm"
               onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
+              aria-label={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
             >
               {theme === 'light' ? '🌙' : '☀️'}
             </Button>
             <Badge count={5}>
-              <Button variant="ghost" size="sm">🔔</Button>
+              <Button variant="ghost" size="sm" aria-label="Notifications">🔔</Button>
             </Badge>
-            <Button variant="ghost" size="sm">👤</Button>
+            <Button variant="ghost" size="sm" aria-label="User profile">👤</Button>
           </Space>
         }
         onMenuToggle={(open) => {
@@ -103,8 +105,10 @@ function AppContent() {
                   activeSection === item.id ? 'sidebar-menu__item--active' : ''
                 }`}
                 onClick={() => setActiveSection(item.id)}
+                aria-label={item.label}
+                aria-current={activeSection === item.id ? 'page' : undefined}
               >
-                <span className="sidebar-menu__icon">{item.icon}</span>
+                <span className="sidebar-menu__icon" aria-hidden="true">{item.icon}</span>
                 {!sidebarCollapsed && (
                   <span className="sidebar-menu__label">{item.label}</span>
                 )}
@@ -132,7 +136,7 @@ function AppContent() {
                 <Row gutter={16}>
                   <Col xs={24} sm={12} lg={6}>
                     <Card bordered hoverable className="stat-card">
-                      <div className="stat-card__icon">👥</div>
+                      <div className="stat-card__icon" aria-hidden="true">👥</div>
                       <Heading level={3} className="mt-3 mb-1">
                         2,847
                       </Heading>
@@ -143,7 +147,7 @@ function AppContent() {
                   </Col>
                   <Col xs={24} sm={12} lg={6}>
                     <Card bordered hoverable className="stat-card">
-                      <div className="stat-card__icon">📦</div>
+                      <div className="stat-card__icon" aria-hidden="true">📦</div>
                       <Heading level={3} className="mt-3 mb-1">
                         1,234
                       </Heading>
@@ -154,7 +158,7 @@ function AppContent() {
                   </Col>
                   <Col xs={24} sm={12} lg={6}>
                     <Card bordered hoverable className="stat-card">
-                      <div className="stat-card__icon">💰</div>
+                      <div className="stat-card__icon" aria-hidden="true">💰</div>
                       <Heading level={3} className="mt-3 mb-1">
                         $45.2k
                       </Heading>
@@ -165,7 +169,7 @@ function AppContent() {
                   </Col>
                   <Col xs={24} sm={12} lg={6}>
                     <Card bordered hoverable className="stat-card">
-                      <div className="stat-card__icon">⭐</div>
+                      <div className="stat-card__icon" aria-hidden="true">⭐</div>
                       <Heading level={3} className="mt-3 mb-1">
                         98.5%
                       </Heading>

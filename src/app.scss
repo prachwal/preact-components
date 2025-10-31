@@ -68,6 +68,11 @@
   }
 }
 
+.sidebar--collapsed .sidebar-menu__item {
+  justify-content: center;
+  padding-left: vars.$spacing-2;
+}
+
 // Footer
 .app-footer {
   margin-top: auto;
