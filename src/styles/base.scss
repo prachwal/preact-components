@@ -1,13 +1,75 @@
 @use 'variables' as *;
+@use 'sass:map';
+
+// CSS Reset
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
 
 :root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
+  font-family: $font-family-base;
+  line-height: map.get($line-heights, normal);
+  font-weight: map.get($font-weights, normal);
 
   color-scheme: light dark;
-  color: $text-color-dark;
-  background-color: $bg-color-dark;
+
+  // Theme variables - default to dark theme
+  --primary-color: #{map.get($dark-theme, primary)};
+  --primary-hover: #{map.get($dark-theme, primary-hover)};
+  --primary-active: #{map.get($dark-theme, primary-active)};
+  --secondary-color: #{map.get($dark-theme, secondary)};
+  --secondary-hover: #{map.get($dark-theme, secondary-hover)};
+  --secondary-active: #{map.get($dark-theme, secondary-active)};
+  --text-color: #{map.get($dark-theme, text)};
+  --text-muted: #{map.get($dark-theme, text-muted)};
+  --text-disabled: #{map.get($dark-theme, text-disabled)};
+  --bg-color: #{map.get($dark-theme, bg)};
+  --bg-secondary: #{map.get($dark-theme, bg-secondary)};
+  --bg-tertiary: #{map.get($dark-theme, bg-tertiary)};
+  --button-bg: #{map.get($dark-theme, button-bg)};
+  --read-the-docs-color: #{map.get($dark-theme, read-the-docs)};
+  --border-color: #{map.get($dark-theme, border)};
+  --border-hover: #{map.get($dark-theme, border-hover)};
+  --shadow-color: #{map.get($dark-theme, shadow)};
+  --success-color: #{map.get($dark-theme, success)};
+  --success-bg: #{map.get($dark-theme, success-bg)};
+  --warning-color: #{map.get($dark-theme, warning)};
+  --warning-bg: #{map.get($dark-theme, warning-bg)};
+  --error-color: #{map.get($dark-theme, error)};
+  --error-bg: #{map.get($dark-theme, error-bg)};
+  --info-color: #{map.get($dark-theme, info)};
+  --info-bg: #{map.get($dark-theme, info-bg)};
+
+  // Spacing CSS variables
+  --spacing-0: #{map.get($spacing, 0)};
+  --spacing-1: #{map.get($spacing, 1)};
+  --spacing-2: #{map.get($spacing, 2)};
+  --spacing-3: #{map.get($spacing, 3)};
+  --spacing-4: #{map.get($spacing, 4)};
+  --spacing-5: #{map.get($spacing, 5)};
+  --spacing-6: #{map.get($spacing, 6)};
+  --spacing-8: #{map.get($spacing, 8)};
+  --spacing-10: #{map.get($spacing, 10)};
+  --spacing-12: #{map.get($spacing, 12)};
+  --spacing-16: #{map.get($spacing, 16)};
+
+  // Border radius
+  --radius-sm: #{map.get($border-radius, sm)};
+  --radius-base: #{map.get($border-radius, base)};
+  --radius-md: #{map.get($border-radius, md)};
+  --radius-lg: #{map.get($border-radius, lg)};
+  --radius-xl: #{map.get($border-radius, xl)};
+  --radius-full: #{map.get($border-radius, full)};
+
+  // Transitions
+  --transition-fast: #{map.get($transitions, fast)};
+  --transition-base: #{map.get($transitions, base)};
+  --transition-slow: #{map.get($transitions, slow)};
+
+  color: var(--text-color);
+  background-color: var(--bg-color);
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -15,35 +77,80 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+body {
+  min-height: 100vh;
+}
+
+// Typography
 a {
-  font-weight: 500;
-  color: $primary-color;
+  font-weight: map.get($font-weights, medium);
+  color: var(--primary-color);
   text-decoration: inherit;
+  transition: color var(--transition-base) $transition-timing;
 }
 
 a:hover {
-  color: $primary-hover;
+  color: var(--primary-hover);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  line-height: map.get($line-heights, tight);
+  color: var(--text-color);
+  font-weight: map.get($font-weights, semibold);
 }
 
 h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
+  font-size: map.get($font-sizes, 5xl);
 }
 
+h2 {
+  font-size: map.get($font-sizes, 4xl);
+}
+
+h3 {
+  font-size: map.get($font-sizes, 3xl);
+}
+
+h4 {
+  font-size: map.get($font-sizes, 2xl);
+}
+
+h5 {
+  font-size: map.get($font-sizes, xl);
+}
+
+h6 {
+  font-size: map.get($font-sizes, lg);
+}
+
+p {
+  line-height: map.get($line-heights, relaxed);
+}
+
+code {
+  font-family: $font-family-mono;
+  background-color: var(--bg-secondary);
+  padding: 0.125rem 0.375rem;
+  border-radius: var(--radius-sm);
+  font-size: map.get($font-sizes, sm);
+}
+
+// Button styles
 button {
-  border-radius: 8px;
+  border-radius: var(--radius-base);
   border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
+  padding: var(--spacing-2) var(--spacing-3);
+  font-size: map.get($font-sizes, base);
+  font-weight: map.get($font-weights, medium);
   font-family: inherit;
-  background-color: $button-bg-dark;
+  background-color: var(--button-bg);
+  color: var(--text-color);
   cursor: pointer;
-  transition: border-color 0.25s;
+  transition: border-color var(--transition-base) $transition-timing;
 }
 
 button:hover {
-  border-color: $primary-color;
+  border-color: var(--primary-color);
 }
 
 button:focus,
@@ -51,17 +158,70 @@ button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: $text-color-light;
-    background-color: #ffffff;
-  }
-
-  a:hover {
-    color: $primary-hover-light;
-  }
-
-  button {
-    background-color: $button-bg-light;
-  }
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
+
+// Utility classes
+.container {
+  max-width: map.get($breakpoints, xl);
+  margin: 0 auto;
+  padding: 0 var(--spacing-4);
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-left {
+  text-align: left;
+}
+
+.text-right {
+  text-align: right;
+}
+
+.flex {
+  display: flex;
+}
+
+.flex-col {
+  flex-direction: column;
+}
+
+.items-center {
+  align-items: center;
+}
+
+.justify-center {
+  justify-content: center;
+}
+
+.gap-1 { gap: var(--spacing-1); }
+.gap-2 { gap: var(--spacing-2); }
+.gap-3 { gap: var(--spacing-3); }
+.gap-4 { gap: var(--spacing-4); }
+
+.mt-1 { margin-top: var(--spacing-1); }
+.mt-2 { margin-top: var(--spacing-2); }
+.mt-3 { margin-top: var(--spacing-3); }
+.mt-4 { margin-top: var(--spacing-4); }
+
+.mb-1 { margin-bottom: var(--spacing-1); }
+.mb-2 { margin-bottom: var(--spacing-2); }
+.mb-3 { margin-bottom: var(--spacing-3); }
+.mb-4 { margin-bottom: var(--spacing-4); }
+
+.p-1 { padding: var(--spacing-1); }
+.p-2 { padding: var(--spacing-2); }
+.p-3 { padding: var(--spacing-3); }
+.p-4 { padding: var(--spacing-4); }
+
+.rounded { border-radius: var(--radius-base); }
+.rounded-lg { border-radius: var(--radius-lg); }
+.rounded-full { border-radius: var(--radius-full); }
+
+.shadow { box-shadow: #{map.get($shadows, base)}; }
+.shadow-md { box-shadow: #{map.get($shadows, md)}; }
+.shadow-lg { box-shadow: #{map.get($shadows, lg)}; }

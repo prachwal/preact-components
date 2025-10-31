@@ -1,5 +1,11 @@
 import type { ComponentProps } from 'preact'
 
-export function Section(props: ComponentProps<'section'>) {
-  return <section {...props} />
+interface SectionProps extends ComponentProps<'section'> {
+  variant?: 'default' | 'card' | 'hero';
+}
+
+export function Section({ variant = 'default', className = '', ...props }: SectionProps) {
+  const variantClass = variant !== 'default' ? `section-${variant}` : '';
+  const classes = [variantClass, className].filter(Boolean).join(' ');
+  return <section className={classes} {...props} />
 }

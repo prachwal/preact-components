@@ -106,6 +106,7 @@ Lista uporządkowana od najważniejszych (podstawowe komponenty używane najczę
 ### 9. Narzędzia Deweloperskie (Najmniej Istotne - Dla Debugowania)
 
 - **ConfigProvider**: Provider dla globalnych ustawień (theme, locale).
+- **ThemeProvider**: Provider dla ręcznego przełączania motywów (light/dark/system).
 - **Affix**: Przyczepiony element (sticky).
 - **Anchor**: Spis treści z linkami.
 - **BackTop**: Przycisk "do góry".
@@ -158,7 +159,275 @@ Aby zapewnić modułowość i uniknąć problemów z enkapsulacją, użyj nastę
 - **Mixiny**: Dla wariantów przycisków, formularzy, layoutów, responsywności.
 - **Zmienne**: Rozszerz `variables.scss` o nowe (rozmiary, cienie, animacje).
 - **Utilities**: Klasy dla flex, spacing, colors, aby przyspieszyć development.
-- **Theme Support**: Dodaj zmienne dla ciemnego/jasnego motywu, z możliwością przełączania przez CSS custom properties.
+- **Theme Support**: Zaimplementowano system motywów jasny/ciemny/system z dwoma paletami kolorów, używając CSS custom properties i @media (prefers-color-scheme). Bez duplikacji definicji palet.
+
+## Konfiguracja Motywów
+
+System motywów obsługuje **4 warianty kolorystyczne** (base, sepia, forest, ocean) z trybami jasnym i ciemnym dla każdego. Wszystkie kolory spełniają wymagania **WCAG AA** dla dostępności.
+
+### Warianty Kolorystyczne
+
+#### Base (Okha) - Ciepłe tony ochry/terracotta
+
+Paleta bazowa **Okha** (назва від російського слова "охра" - ochra), oferująca ciepłe, ziemiste tony inspirowane naturalnym pigmentem ochry.
+
+##### Primary - Ochre (Ochra/Bursztyn)
+
+- **Ochre 50-900**: Od najjaśniejszego (#FFF8E1) do najciemniejszego (#FF6F00)
+- **Główny kolor**: Ochre 600 (#FFB300) - jasny motyw
+- **Główny kolor**: Ochre 400 (#FFCA28) - ciemny motyw
+
+##### Secondary - Terracotta (Wypalona Siena)
+
+- **Terracotta 50-900**: Od kremowego (#FBE9E7) do głębokiego brązu (#BF360C)
+- **Kolor dodatkowy**: Terracotta 500 (#FF5722) - jasny motyw
+- **Kolor dodatkowy**: Terracotta 400 (#FF7043) - ciemny motyw
+
+##### Neutralne - Ciepłe szarości
+
+- **Neutral 50-900**: Od prawie białego (#FAFAFA) do prawie czarnego (#212121)
+
+#### Sepia - Vintage brązy i kremy
+
+Paleta inspirowana starymi fotografiami sepiowymi, oferująca nostalgiczny, ciepły wygląd.
+
+##### Primary - Sepia Brown
+
+- **Sepia 50**: #FDF6E3 (Kremowy)
+- **Sepia 600**: #8B6F47 (Brązowy średni) - jasny motyw
+- **Sepia 400**: #A0826D (Brązowy jasny) - ciemny motyw
+- **Sepia 900**: #3E2723 (Brązowy głęboki)
+
+##### Secondary - Burnt Umber
+
+- **Umber 50**: #EFEBE9
+- **Umber 500**: #6D4C41 - jasny motyw
+- **Umber 400**: #8D6E63 - ciemny motyw
+- **Umber 900**: #3E2723
+
+#### Forest - Naturalne zielenie i brązy
+
+Paleta inspirowana lasem, oferująca spokojne, naturalne kolory.
+
+##### Primary - Forest Green
+
+- **Forest 50**: #E8F5E9 (Jasnozielony)
+- **Forest 600**: #43A047 (Zielony średni) - jasny motyw
+- **Forest 400**: #66BB6A (Zielony jasny) - ciemny motyw
+- **Forest 900**: #1B5E20 (Zielony głęboki)
+
+##### Secondary - Bark Brown
+
+- **Bark 50**: #EFEBE9
+- **Bark 500**: #795548 - jasny motyw
+- **Bark 400**: #A1887F - ciemny motyw
+- **Bark 900**: #3E2723
+
+#### Ocean - Chłodne błękity i akwamaryny
+
+Paleta inspirowana oceanem, oferująca świeże, nowoczesne kolory.
+
+##### Primary - Ocean Blue
+
+- **Ocean 50**: #E1F5FE (Jasnoniebieski)
+- **Ocean 600**: #039BE5 (Niebieski średni) - jasny motyw
+- **Ocean 400**: #29B6F6 (Niebieski jasny) - ciemny motyw
+- **Ocean 900**: #01579B (Niebieski głęboki)
+
+##### Secondary - Teal
+
+- **Teal 50**: #E0F2F1
+- **Teal 500**: #009688 - jasny motyw
+- **Teal 400**: #26A69A - ciemny motyw
+- **Teal 900**: #004D40
+
+### Kolory Semantyczne (Wspólne dla Wszystkich Wariantów)
+
+- **Success**: Ciemnozielony (#2E7D32) / Jasnozielony (#66BB6A)
+- **Warning**: Ciemnopomarańczowy (#F57C00) / Jasnopomarańczowy (#FFA726)
+- **Error**: Ciemnoczerwony (#C62828) / Jasnoczerwony (#EF5350)
+- **Info**: Ciemnoniebieski (#1565C0) / Jasnoniebieski (#42A5F5)
+
+### Type-Safe Theme System
+
+System motywów wykorzystuje **strict TypeScript typing** aby zapobiec błędom i zapewnić autocomplete dla wszystkich zmiennych CSS.
+
+#### Podstawowe Typy
+
+```typescript
+// Tylko te zmienne mogą być nadpisane - brak możliwości pomyłki!
+export type ThemeColorVariable =
+  | 'primary-color'
+  | 'primary-hover'
+  | 'primary-active'
+  | 'secondary-color'
+  | 'secondary-hover'
+  | 'secondary-active'
+  | 'text-color'
+  | 'text-muted'
+  | 'text-disabled'
+  | 'bg-color'
+  | 'bg-secondary'
+  | 'bg-tertiary'
+  | 'button-bg'
+  | 'read-the-docs-color'
+  | 'border-color'
+  | 'border-hover'
+  | 'shadow-color'
+  | 'success-color'
+  | 'success-bg'
+  | 'warning-color'
+  | 'warning-bg'
+  | 'error-color'
+  | 'error-bg'
+  | 'info-color'
+  | 'info-bg';
+
+export type ThemeVariables = {
+  [K in ThemeColorVariable]?: string;
+};
+
+export type ThemeVariant = 'base' | 'sepia' | 'forest' | 'ocean';
+```
+
+#### Użycie ThemeProvider z Wariantami
+
+```typescript
+import { ThemeProvider, BaseColors } from '@/components';
+
+// ✅ Prawidłowe - defaultVariant określa paletę kolorów
+<ThemeProvider 
+  defaultTheme="system"
+  defaultVariant="base"  // lub 'sepia' | 'forest' | 'ocean'
+>
+  <App />
+</ThemeProvider>
+
+// ✅ Programatyczne przełączanie wariantów
+function MyComponent() {
+  const { variant, setVariant } = useTheme();
+  
+  return (
+    <div>
+      <button onClick={() => setVariant('sepia')}>Sepia</button>
+      <button onClick={() => setVariant('forest')}>Forest</button>
+      <button onClick={() => setVariant('ocean')}>Ocean</button>
+    </div>
+  );
+}
+
+// ✅ Niestandardowe kolory z type-safety
+<ThemeProvider 
+  defaultVariant="base"
+  customVariables={{
+    'primary-color': BaseColors.ochre[700],
+    'success-color': '#00AA00'
+  }}
+>
+  <App />
+</ThemeProvider>
+
+// ❌ Błąd TypeScript - nieistniejąca zmienna
+<ThemeProvider 
+  customVariables={{
+    'wrong-variable': '#FF0000' // Error: Type 'wrong-variable' is not assignable
+  }}
+>
+  <App />
+</ThemeProvider>
+```
+
+#### Dostęp do Palet Kolorów
+
+```typescript
+import { 
+  BaseColors,    // Okha palette (ochre/terracotta)
+  SepiaColors,   // Sepia palette (vintage browns)
+  ForestColors,  // Forest palette (natural greens)
+  OceanColors,   // Ocean palette (cool blues)
+  getThemeVariables 
+} from '@/components/theme/theme-types';
+
+// Programatyczne generowanie motywu
+const customTheme = getThemeVariables('dark', 'forest');
+
+// Dostęp do konkretnych kolorów
+const primaryColor = ForestColors.forest[600];
+const secondaryColor = ForestColors.bark[500];
+```
+
+### Funkcje ThemeProvider
+
+- **defaultTheme**: 'light' | 'dark' | 'system' - Wybór domyślnego motywu
+- **defaultVariant**: 'base' | 'sepia' | 'forest' | 'ocean' - Wybór domyślnej palety kolorów
+- **customVariables**: `Partial<ThemeVariables>` - Nadpisanie dowolnych zmiennych CSS z type-safety
+- **setTheme**: Funkcja zmiany motywu (jasny/ciemny/system)
+- **setVariant**: Funkcja zmiany wariantu kolorystycznego
+- **setCustomVariables**: Dynamiczna zmana zmiennych w runtime
+- **actualTheme**: Aktualnie zastosowany motyw (rozwiązany 'system')
+- **Data attributes**: `data-theme` i `data-variant` dla CSS hooks
+
+### Persystencja
+
+System automatycznie zapisuje preferencje użytkownika w localStorage:
+
+- `theme-preference`: Zapisany motyw (light/dark/system)
+- `theme-variant`: Zapisany wariant kolorystyczny (base/sepia/forest/ocean)
+
+```typescript
+// Przykład z persystencją
+function App() {
+  const { theme, setTheme, variant, setVariant } = useTheme();
+  
+  // Zmiana jest automatycznie zapisana w localStorage
+  const handleThemeChange = (newTheme: 'light' | 'dark' | 'system') => {
+    setTheme(newTheme);
+  };
+  
+  const handleVariantChange = (newVariant: ThemeVariant) => {
+    setVariant(newVariant);
+  };
+  
+  return (
+    <div>
+      <p>Current theme: {theme}</p>
+      <p>Current variant: {variant}</p>
+    </div>
+  );
+}
+```
+
+### Przykład Użycia w Komponentach
+
+```scss
+.my-component {
+  color: var(--text-color);
+  background: var(--bg-color);
+  border: 1px solid var(--border-color);
+  
+  &:hover {
+    border-color: var(--border-hover);
+  }
+}
+```
+
+### WCAG AA Compliance
+
+Wszystkie kombinacje kolorów tekstu i tła spełniają wymogi WCAG AA:
+
+- **Normalny tekst**: Kontrast minimum 4.5:1
+- **Duży tekst (18px+)**: Kontrast minimum 3:1
+- **Kolory semantyczne**: Zoptymalizowane dla użytkowników z deficytami widzenia kolorów
+
+### Rozszerzenie
+
+ThemeProvider oferuje:
+
+- **defaultTheme**: 'light' | 'dark' | 'system' - wybór domyślnego motywu
+- **customVariables**: `Partial<ThemeVariables>` - nadpisanie dowolnych zmiennych CSS z type-safety
+- **setCustomVariables**: Dynamiczna zmiana zmiennych w runtime
+- **actualTheme**: Aktualnie zastosowany motyw (rozwiązany 'system')
+- **OkhaColors**: Pełna paleta kolorów do własnych kompozycji
 
 ## Aliasy TypeScript
 

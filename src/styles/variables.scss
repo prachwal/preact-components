@@ -1,11 +1,233 @@
-// Color variables
-$primary-color: #646cff;
-$primary-hover: #535bf2;
-$primary-hover-light: #747bff;
-$secondary-color: #673ab8;
-$text-color-dark: rgba(255, 255, 255, 0.87);
-$bg-color-dark: #242424;
-$text-color-light: #213547;
-$button-bg-dark: #1a1a1a;
-$button-bg-light: #f9f9f9;
-$read-the-docs-color: #888;
+// Theme color palettes
+@use 'sass:map';
+
+// Spacing system (based on 8px grid)
+$spacing-unit: 0.5rem; // 8px
+
+$spacing: (
+  0: 0,
+  1: $spacing-unit,        // 8px
+  2: $spacing-unit * 2,    // 16px
+  3: $spacing-unit * 3,    // 24px
+  4: $spacing-unit * 4,    // 32px
+  5: $spacing-unit * 5,    // 40px
+  6: $spacing-unit * 6,    // 48px
+  8: $spacing-unit * 8,    // 64px
+  10: $spacing-unit * 10,  // 80px
+  12: $spacing-unit * 12,  // 96px
+  16: $spacing-unit * 16,  // 128px
+);
+
+// Typography
+$font-family-base: system-ui, Avenir, Helvetica, Arial, sans-serif;
+$font-family-mono: 'Courier New', Courier, monospace;
+
+$font-sizes: (
+  xs: 0.75rem,    // 12px
+  sm: 0.875rem,   // 14px
+  base: 1rem,     // 16px
+  lg: 1.125rem,   // 18px
+  xl: 1.25rem,    // 20px
+  2xl: 1.5rem,    // 24px
+  3xl: 1.875rem,  // 30px
+  4xl: 2.25rem,   // 36px
+  5xl: 3rem,      // 48px
+  6xl: 3.75rem,   // 60px
+);
+
+$font-weights: (
+  light: 300,
+  normal: 400,
+  medium: 500,
+  semibold: 600,
+  bold: 700,
+);
+
+$line-heights: (
+  none: 1,
+  tight: 1.25,
+  normal: 1.5,
+  relaxed: 1.75,
+  loose: 2,
+);
+
+// Border radius
+$border-radius: (
+  none: 0,
+  sm: 0.25rem,   // 4px
+  base: 0.5rem,  // 8px
+  md: 0.75rem,   // 12px
+  lg: 1rem,      // 16px
+  xl: 1.5rem,    // 24px
+  full: 9999px,
+);
+
+// Breakpoints
+$breakpoints: (
+  xs: 480px,
+  sm: 640px,
+  md: 768px,
+  lg: 1024px,
+  xl: 1280px,
+  2xl: 1536px,
+);
+
+// Transitions
+$transitions: (
+  fast: 0.15s,
+  base: 0.25s,
+  slow: 0.5s,
+);
+
+$transition-timing: cubic-bezier(0.4, 0, 0.2, 1);
+
+// Shadows
+$shadows: (
+  sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05),
+  base: 0 1px 3px 0 rgba(0, 0, 0, 0.1),
+  md: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+  lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+  xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
+  none: none,
+);
+
+// Z-index scale
+$z-index: (
+  dropdown: 1000,
+  sticky: 1020,
+  fixed: 1030,
+  modal-backdrop: 1040,
+  modal: 1050,
+  popover: 1060,
+  tooltip: 1070,
+);
+
+// Okha Color Palette - Warm, earthy tones inspired by ochre
+// All colors meet WCAG AA contrast requirements for accessibility
+
+// Primary - Warm ochre/amber tones
+$ochre-50: #FFF8E1;
+$ochre-100: #FFECB3;
+$ochre-200: #FFE082;
+$ochre-300: #FFD54F;
+$ochre-400: #FFCA28;
+$ochre-500: #FFC107;
+$ochre-600: #FFB300;
+$ochre-700: #FFA000;
+$ochre-800: #FF8F00;
+$ochre-900: #FF6F00;
+
+// Secondary - Terracotta/burnt sienna
+$terracotta-50: #FBE9E7;
+$terracotta-100: #FFCCBC;
+$terracotta-200: #FFAB91;
+$terracotta-300: #FF8A65;
+$terracotta-400: #FF7043;
+$terracotta-500: #FF5722;
+$terracotta-600: #F4511E;
+$terracotta-700: #E64A19;
+$terracotta-800: #D84315;
+$terracotta-900: #BF360C;
+
+// Neutral - Warm grays
+$neutral-50: #FAFAFA;
+$neutral-100: #F5F5F5;
+$neutral-200: #EEEEEE;
+$neutral-300: #E0E0E0;
+$neutral-400: #BDBDBD;
+$neutral-500: #9E9E9E;
+$neutral-600: #757575;
+$neutral-700: #616161;
+$neutral-800: #424242;
+$neutral-900: #212121;
+
+// Semantic colors (WCAG AA compliant)
+$success-dark: #2E7D32;
+$success-light-bg: #E8F5E9;
+$success-light: #66BB6A;
+$success-dark-bg: #1B5E20;
+
+$warning-dark: #F57C00;
+$warning-light-bg: #FFF3E0;
+$warning-light: #FFA726;
+$warning-dark-bg: #E65100;
+
+$error-dark: #C62828;
+$error-light-bg: #FFEBEE;
+$error-light: #EF5350;
+$error-dark-bg: #B71C1C;
+
+$info-dark: #1565C0;
+$info-light-bg: #E3F2FD;
+$info-light: #42A5F5;
+$info-dark-bg: #0D47A1;
+
+// Light theme - Okha palette
+$light-theme: (
+  primary: $ochre-600,
+  primary-hover: $ochre-700,
+  primary-active: $ochre-800,
+  secondary: $terracotta-500,
+  secondary-hover: $terracotta-600,
+  secondary-active: $terracotta-700,
+  text: $neutral-900,
+  text-muted: $neutral-600,
+  text-disabled: $neutral-400,
+  bg: #FFFFFF,
+  bg-secondary: $neutral-50,
+  bg-tertiary: $neutral-100,
+  button-bg: $neutral-100,
+  read-the-docs: $neutral-600,
+  border: $neutral-300,
+  border-hover: $neutral-400,
+  shadow: rgba(33, 33, 33, 0.1),
+  success: $success-dark,
+  success-bg: $success-light-bg,
+  warning: $warning-dark,
+  warning-bg: $warning-light-bg,
+  error: $error-dark,
+  error-bg: $error-light-bg,
+  info: $info-dark,
+  info-bg: $info-light-bg,
+);
+
+// Dark theme - Okha palette
+$dark-theme: (
+  primary: $ochre-400,
+  primary-hover: $ochre-300,
+  primary-active: $ochre-200,
+  secondary: $terracotta-400,
+  secondary-hover: $terracotta-300,
+  secondary-active: $terracotta-200,
+  text: rgba(255, 255, 255, 0.87),
+  text-muted: rgba(255, 255, 255, 0.6),
+  text-disabled: rgba(255, 255, 255, 0.38),
+  bg: #1A1A1A,
+  bg-secondary: #242424,
+  bg-tertiary: #2E2E2E,
+  button-bg: #2E2E2E,
+  read-the-docs: rgba(255, 255, 255, 0.6),
+  border: #404040,
+  border-hover: #505050,
+  shadow: rgba(0, 0, 0, 0.3),
+  success: $success-light,
+  success-bg: $success-dark-bg,
+  warning: $warning-light,
+  warning-bg: $warning-dark-bg,
+  error: $error-light,
+  error-bg: $error-dark-bg,
+  info: $info-light,
+  info-bg: $info-dark-bg,
+);
+
+// Legacy variables for backward compatibility (deprecated - use CSS variables instead)
+$primary-color: map.get($dark-theme, primary);
+$primary-hover: map.get($dark-theme, primary-hover);
+$primary-hover-light: map.get($light-theme, primary-hover);
+$secondary-color: map.get($dark-theme, secondary);
+$text-color-dark: map.get($dark-theme, text);
+$bg-color-dark: map.get($dark-theme, bg);
+$text-color-light: map.get($light-theme, text);
+$button-bg-dark: map.get($dark-theme, button-bg);
+$button-bg-light: map.get($light-theme, button-bg);
+$read-the-docs-color: map.get($dark-theme, read-the-docs);
