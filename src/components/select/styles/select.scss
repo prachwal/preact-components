@@ -1,0 +1,86 @@
+@use '../../../styles/variables' as vars;
+@use 'sass:map';
+@use '../../../styles/mixins' as mixins;
+
+.select {
+  font-family: inherit;
+  color: var(--text-color);
+  background-color: var(--bg-color);
+  border: 1px solid var(--border-color);
+  @include mixins.radius(base);
+  @include mixins.transition(border-color);
+  outline: none;
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23666' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  padding-right: 36px;
+
+  &:hover:not(:disabled) {
+    border-color: var(--border-hover);
+  }
+
+  &:focus {
+    border-color: var(--primary-color);
+    @include mixins.shadow(base);
+  }
+
+  &:disabled {
+    background-color: var(--bg-secondary);
+    cursor: not-allowed;
+    opacity: 0.6;
+  }
+
+  // Sizes
+  &--small {
+    padding: map.get(vars.$spacing, 1) map.get(vars.$spacing, 2);
+    font-size: map.get(vars.$font-sizes, sm);
+  }
+
+  &--medium {
+    padding: map.get(vars.$spacing, 2) map.get(vars.$spacing, 3);
+    font-size: map.get(vars.$font-sizes, base);
+  }
+
+  &--large {
+    padding: map.get(vars.$spacing, 3) map.get(vars.$spacing, 4);
+    font-size: map.get(vars.$font-sizes, lg);
+  }
+
+  // Variants
+  &--outlined {
+    background-color: var(--bg-color);
+  }
+
+  &--filled {
+    background-color: var(--bg-secondary);
+    border-color: transparent;
+
+    &:hover:not(:disabled) {
+      background-color: var(--bg-tertiary);
+    }
+
+    &:focus {
+      background-color: var(--bg-color);
+      border-color: var(--primary-color);
+    }
+  }
+
+  // States
+  &--error {
+    border-color: var(--error-color);
+
+    &:focus {
+      border-color: var(--error-color);
+    }
+  }
+
+  &--full-width {
+    width: 100%;
+  }
+
+  option {
+    padding: map.get(vars.$spacing, 2);
+  }
+}

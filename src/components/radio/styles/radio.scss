@@ -1,0 +1,60 @@
+@use '../../../styles/variables' as vars;
+@use 'sass:map';
+@use '../../../styles/mixins' as mixins;
+
+.radio {
+  display: inline-flex;
+  align-items: center;
+  gap: map.get(vars.$spacing, 2);
+  cursor: pointer;
+
+  &__input {
+    appearance: none;
+    width: 18px;
+    height: 18px;
+    border: 2px solid var(--border-color);
+    border-radius: 50%;
+    @include mixins.transition(all);
+    cursor: pointer;
+    position: relative;
+    margin: 0;
+
+    &:hover:not(:disabled) {
+      border-color: var(--primary-color);
+    }
+
+    &:checked {
+      border-color: var(--primary-color);
+
+      &::after {
+        content: '';
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background-color: var(--primary-color);
+      }
+    }
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--primary-color);
+      outline-offset: 2px;
+    }
+  }
+
+  &__label {
+    color: var(--text-color);
+    font-size: map.get(vars.$font-sizes, base);
+    cursor: pointer;
+    -webkit-user-select: none;
+    user-select: none;
+  }
+}

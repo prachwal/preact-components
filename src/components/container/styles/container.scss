@@ -1,0 +1,42 @@
+@use '../../../styles/variables' as vars;
+@use 'sass:map';
+@use '../../../styles/mixins' as mixins;
+
+.container {
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: map.get(vars.$spacing, 3);
+  padding-right: map.get(vars.$spacing, 3);
+
+  &:not(&--fluid) {
+    max-width: map.get(vars.$breakpoints, lg);
+  }
+
+  // Max width variants
+  &--sm {
+    max-width: map.get(vars.$breakpoints, sm);
+  }
+
+  &--md {
+    max-width: map.get(vars.$breakpoints, md);
+  }
+
+  &--lg {
+    max-width: map.get(vars.$breakpoints, lg);
+  }
+
+  &--xl {
+    max-width: map.get(vars.$breakpoints, xl);
+  }
+
+  &--2xl {
+    max-width: map.get(vars.$breakpoints, 2xl);
+  }
+
+  // Responsive padding
+  @include mixins.responsive(md) {
+    padding-left: map.get(vars.$spacing, 4);
+    padding-right: map.get(vars.$spacing, 4);
+  }
+}

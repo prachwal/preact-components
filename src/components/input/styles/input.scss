@@ -1,0 +1,102 @@
+@use '../../../styles/variables' as vars;
+@use 'sass:map';
+@use '../../../styles/mixins' as mixins;
+
+.input {
+  font-family: inherit;
+  color: var(--text-color);
+  background-color: var(--bg-color);
+  border: 1px solid var(--border-color);
+  @include mixins.radius(base);
+  @include mixins.transition(border-color);
+  outline: none;
+
+  &::placeholder {
+    color: var(--text-disabled);
+  }
+
+  &:hover:not(:disabled) {
+    border-color: var(--border-hover);
+  }
+
+  &:focus {
+    border-color: var(--primary-color);
+    @include mixins.shadow(base);
+  }
+
+  &:disabled {
+    background-color: var(--bg-secondary);
+    cursor: not-allowed;
+    opacity: 0.6;
+  }
+
+  // Sizes
+  &--small {
+    padding: map.get(vars.$spacing, 1) map.get(vars.$spacing, 2);
+    font-size: map.get(vars.$font-sizes, sm);
+  }
+
+  &--medium {
+    padding: map.get(vars.$spacing, 2) map.get(vars.$spacing, 3);
+    font-size: map.get(vars.$font-sizes, base);
+  }
+
+  &--large {
+    padding: map.get(vars.$spacing, 3) map.get(vars.$spacing, 4);
+    font-size: map.get(vars.$font-sizes, lg);
+  }
+
+  // Variants
+  &--outlined {
+    background-color: var(--bg-color);
+  }
+
+  &--filled {
+    background-color: var(--bg-secondary);
+    border-color: transparent;
+
+    &:hover:not(:disabled) {
+      background-color: var(--bg-tertiary);
+    }
+
+    &:focus {
+      background-color: var(--bg-color);
+      border-color: var(--primary-color);
+    }
+  }
+
+  // States
+  &--error {
+    border-color: var(--error-color);
+
+    &:focus {
+      border-color: var(--error-color);
+    }
+  }
+
+  &--full-width {
+    width: 100%;
+  }
+}
+
+.input-wrapper {
+  display: inline-flex;
+  align-items: center;
+  position: relative;
+  gap: map.get(vars.$spacing, 2);
+
+  &--full-width {
+    width: 100%;
+
+    .input {
+      flex: 1;
+    }
+  }
+}
+
+.input__prefix,
+.input__suffix {
+  color: var(--text-muted);
+  font-size: map.get(vars.$font-sizes, sm);
+  white-space: nowrap;
+}

@@ -1,0 +1,14 @@
+@use '../../../styles/variables' as *;
+@use 'sass:map';
+
+.section-card {
+  padding: var(--spacing-4);
+  background-color: var(--bg-secondary);
+  border-radius: var(--radius-lg);
+  box-shadow: map.get($shadows, md);
+}
+
+.section-hero {
+  padding: var(--spacing-8) var(--spacing-4);
+  text-align: center;
+}

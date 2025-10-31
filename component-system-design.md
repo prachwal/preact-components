@@ -12,7 +12,282 @@ Na podstawie istniejących komponentów w `src/components` (button, code, footer
 - **Feedback**: Modalne okna, alerty, tooltips.
 - **Zaawansowane**: Komponenty złożone jak date picker, upload.
 - **Stylowanie**: Użycie SCSS z zmiennymi, @use zamiast @import, komponenty z props dla stylów.
+- **Responsywność**: Podejście **Mobile First** z breakpointami i elastycznym layoutem.
 - **Aliasy TypeScript**: Użycie aliasów ścieżek dla łatwiejszych importów (np. `@/components/Button` zamiast `../../../components/button`).
+
+## Podejście Mobile First - Responsywność
+
+System komponentów stosuje podejście **Mobile First**, co oznacza, że style bazowe są tworzone dla urządzeń mobilnych, a następnie rozszerzane dla większych ekranów za pomocą media queries.
+
+### Breakpointy
+
+Zdefiniowane w `src/styles/variables.scss`:
+
+```scss
+$breakpoints: (
+  xs: 480px,   // Extra small - małe telefony
+  sm: 640px,   // Small - telefony landscape, małe tablety
+  md: 768px,   // Medium - tablety portrait
+  lg: 1024px,  // Large - tablety landscape, małe laptopy
+  xl: 1280px,  // Extra large - laptopy
+  2xl: 1536px, // 2X large - duże monitory
+);
+```
+
+### Responsive Mixiny
+
+W `src/styles/mixins.scss` dostępne są pomocnicze mixiny:
+
+#### @mixin responsive($breakpoint)
+Podstawowy mixin dla media queries:
+
+```scss
+@include responsive(md) {
+  // Style dla ekranów >= 768px
+  font-size: 1.5rem;
+}
+```
+
+#### @mixin responsive-font($mobile, $tablet, $desktop)
+Responsywne rozmiary czcionek:
+
+```scss
+h1 {
+  @include responsive-font(2xl, 3xl, 4xl);
+  // Mobile: 1.5rem, Tablet (sm): 1.875rem, Desktop (lg): 2.25rem
+}
+```
+
+#### @mixin responsive-spacing($property, $mobile, $tablet, $desktop)
+Responsywne odstępy:
+
+```scss
+.section {
+  @include responsive-spacing(padding, 3, 4, 6);
+  // Mobile: 24px, Tablet (sm): 32px, Desktop (lg): 48px
+}
+```
+
+#### @mixin container-padding
+Automatyczne responsywne paddingi dla kontenerów:
+
+```scss
+.container {
+  @include container-padding;
+  // Mobile: 16px, Tablet (sm): 24px, Desktop (lg): 32px
+}
+```
+
+#### @mixin hide-on($breakpoint) i @mixin show-between($min-bp, $max-bp)
+Ukrywanie i pokazywanie elementów na określonych breakpointach:
+
+```scss
+.mobile-only {
+  @include hide-on(md);  // Ukryj na ekranach >= 768px
+}
+
+.tablet-only {
+  @include show-between(sm, lg);  // Pokaż tylko między 640px a 1024px
+}
+```
+
+### Responsive Utility Classes
+
+System dostarcza kompletny zestaw utility classes dla responsywności:
+
+#### Display (Mobile First)
+
+```html
+<!-- Ukryj na desktop, pokaż na mobile -->
+<div class="d-block d-lg-none">Mobile only</div>
+
+<!-- Ukryj na mobile, pokaż na desktop -->
+<div class="d-none d-lg-block">Desktop only</div>
+
+<!-- Flex na wszystkich, grid na tablet+ -->
+<div class="d-flex d-md-grid">Responsive layout</div>
+```
+
+#### Flexbox Direction
+
+```html
+<!-- Kolumna na mobile, wiersz na tablet+ -->
+<div class="flex-column flex-sm-row">
+  <div>Item 1</div>
+  <div>Item 2</div>
+</div>
+```
+
+#### Alignment i Justification
+
+```html
+<!-- Center na mobile, space-between na desktop -->
+<div class="d-flex justify-center justify-lg-between">
+  <div>Left</div>
+  <div>Right</div>
+</div>
+
+<!-- Start alignment na mobile, center na tablet+ -->
+<div class="d-flex align-start align-md-center">
+  <div>Content</div>
+</div>
+```
+
+#### Text Alignment
+
+```html
+<!-- Center na mobile, left na desktop -->
+<p class="text-center text-lg-left">Responsive text</p>
+```
+
+#### Spacing (Responsive)
+
+```html
+<!-- Małe marginesy na mobile, większe na desktop -->
+<div class="mb-2 mb-md-4 mb-lg-6">Content</div>
+
+<!-- Responsive padding -->
+<div class="py-3 py-md-5 py-lg-8">Section</div>
+```
+
+### Grid System - Responsive Columns
+
+Komponent `Col` obsługuje responsywne breakpointy:
+
+```tsx
+<Row gutter={16}>
+  {/* 24 kolumny (100%) na mobile */}
+  {/* 12 kolumn (50%) na small+ */}
+  {/* 8 kolumn (33%) na medium+ */}
+  <Col xs={24} sm={12} md={8}>
+    Content
+  </Col>
+  <Col xs={24} sm={12} md={8}>
+    Content
+  </Col>
+  <Col xs={24} sm={12} md={8}>
+    Content
+  </Col>
+</Row>
+```
+
+Dostępne props dla `Col`:
+- `xs` - Extra small (< 480px) - bazowy
+- `sm` - Small (>= 640px)
+- `md` - Medium (>= 768px)
+- `lg` - Large (>= 1024px)
+- `xl` - Extra large (>= 1280px)
+- `span` - Domyślna szerokość (fallback)
+
+### Responsive Container
+
+Komponent `Container` automatycznie dostosowuje max-width i padding:
+
+```tsx
+<Container maxWidth="xl" className="py-4 py-md-6">
+  {/* Padding: 32px mobile, 48px desktop */}
+  Content
+</Container>
+```
+
+MaxWidth variants:
+- `sm`: 640px
+- `md`: 768px
+- `lg`: 1024px
+- `xl`: 1280px
+- `2xl`: 1536px
+- `fluid`: 100% width
+
+### Best Practices - Mobile First
+
+1. **Rozpocznij od mobilnego layoutu**:
+   ```scss
+   .component {
+     // Bazowe style dla mobile
+     padding: 1rem;
+     flex-direction: column;
+     
+     // Rozszerzenia dla większych ekranów
+     @include responsive(md) {
+       padding: 2rem;
+       flex-direction: row;
+     }
+   }
+   ```
+
+2. **Używaj Grid System z responsive props**:
+   ```tsx
+   <Row gutter={16}>
+     <Col xs={24} md={12} lg={8}>
+       {/* Stack na mobile, 2 kolumny na tablet, 3 na desktop */}
+     </Col>
+   </Row>
+   ```
+
+3. **Stosuj responsive utility classes**:
+   ```tsx
+   <div className="flex-column flex-md-row gap-2 gap-md-4">
+     {/* Vertical stack z małym gap na mobile */}
+     {/* Horizontal z większym gap na desktop */}
+   </div>
+   ```
+
+4. **Touch-friendly targets na mobile**:
+   - Minimum 44px × 44px dla elementów interaktywnych
+   - Większe paddingi dla przycisków i linków
+   - Responsive font sizes (większe na desktop)
+
+5. **Optymalizuj performance**:
+   - Lazy loading obrazów
+   - Code splitting dla dużych komponentów
+   - Minimal CSS dla critical path (above the fold)
+
+6. **Testuj na różnych rozdzielczościach**:
+   - 320px (iPhone SE)
+   - 375px (iPhone X)
+   - 768px (iPad portrait)
+   - 1024px (iPad landscape)
+   - 1920px (Desktop)
+
+### Przykład Responsywnej Aplikacji
+
+```tsx
+import { Container, Row, Col, Card, Button, Space } from '@/components';
+
+function App() {
+  return (
+    <Container maxWidth="xl" className="py-4 py-lg-6">
+      {/* Stack cards na mobile, 2 kolumny na tablet, 3 na desktop */}
+      <Row gutter={16}>
+        <Col xs={24} sm={12} lg={8}>
+          <Card title="Card 1" className="mb-3 mb-lg-0">
+            Content
+          </Card>
+        </Col>
+        <Col xs={24} sm={12} lg={8}>
+          <Card title="Card 2" className="mb-3 mb-lg-0">
+            Content
+          </Card>
+        </Col>
+        <Col xs={24} sm={12} lg={8}>
+          <Card title="Card 3">
+            Content
+          </Card>
+        </Col>
+      </Row>
+      
+      {/* Buttons stack na mobile, horizontal na tablet */}
+      <Space size="middle" className="flex-column flex-sm-row mt-4">
+        <Button variant="primary">Action 1</Button>
+        <Button variant="secondary">Action 2</Button>
+        <Button variant="outline">Action 3</Button>
+      </Space>
+    </Container>
+  );
+}
+```
+
+
 
 ## Pełna Lista Elementów do Zaimplementowania
 

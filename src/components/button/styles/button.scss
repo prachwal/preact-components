@@ -1,0 +1,154 @@
+@use '../../../styles/variables' as vars;
+@use 'sass:map';
+@use '../../../styles/mixins' as mixins;
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: map.get(vars.$spacing, 1);
+  font-family: inherit;
+  font-weight: map.get(vars.$font-weights, medium);
+  line-height: 1;
+  border: 1px solid transparent;
+  cursor: pointer;
+  @include mixins.radius(base);
+  @include mixins.transition(all);
+  @include mixins.focus-visible;
+  
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+
+  // Sizes
+  &--sm {
+    padding: map.get(vars.$spacing, 1) map.get(vars.$spacing, 2);
+    font-size: map.get(vars.$font-sizes, sm);
+    min-height: 28px;
+  }
+
+  &--md {
+    padding: map.get(vars.$spacing, 2) map.get(vars.$spacing, 3);
+    font-size: map.get(vars.$font-sizes, base);
+    min-height: 36px;
+  }
+
+  &--lg {
+    padding: map.get(vars.$spacing, 3) map.get(vars.$spacing, 4);
+    font-size: map.get(vars.$font-sizes, lg);
+    min-height: 44px;
+  }
+
+  // Variants
+  &--primary {
+    background-color: var(--primary-color);
+    color: white;
+    border-color: var(--primary-color);
+    
+    &:hover:not(:disabled) {
+      background-color: var(--primary-hover);
+      border-color: var(--primary-hover);
+    }
+
+    &:active:not(:disabled) {
+      background-color: var(--primary-active);
+      border-color: var(--primary-active);
+    }
+  }
+
+  &--secondary {
+    background-color: var(--secondary-color);
+    color: white;
+    border-color: var(--secondary-color);
+    
+    &:hover:not(:disabled) {
+      background-color: var(--secondary-hover);
+      border-color: var(--secondary-hover);
+    }
+
+    &:active:not(:disabled) {
+      background-color: var(--secondary-active);
+      border-color: var(--secondary-active);
+    }
+  }
+
+  &--outline {
+    background-color: transparent;
+    color: var(--primary-color);
+    border-color: var(--primary-color);
+    
+    &:hover:not(:disabled) {
+      background-color: var(--primary-color);
+      color: white;
+    }
+
+    &:active:not(:disabled) {
+      background-color: var(--primary-hover);
+      border-color: var(--primary-hover);
+    }
+  }
+
+  &--ghost {
+    background-color: transparent;
+    color: var(--text-color);
+    border-color: transparent;
+    
+    &:hover:not(:disabled) {
+      background-color: var(--bg-secondary);
+    }
+
+    &:active:not(:disabled) {
+      background-color: var(--bg-tertiary);
+    }
+  }
+
+  &--link {
+    background-color: transparent;
+    color: var(--primary-color);
+    border-color: transparent;
+    padding-left: 0;
+    padding-right: 0;
+    
+    &:hover:not(:disabled) {
+      color: var(--primary-hover);
+      text-decoration: underline;
+    }
+
+    &:active:not(:disabled) {
+      color: var(--primary-active);
+    }
+  }
+
+  // Loading state
+  &--loading {
+    position: relative;
+    pointer-events: none;
+  }
+
+  &__spinner {
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    border: 2px solid currentColor;
+    border-radius: 50%;
+    border-top-color: transparent;
+    animation: btn-spin 0.6s linear infinite;
+  }
+
+  &__content {
+    display: inline-flex;
+    align-items: center;
+    gap: map.get(vars.$spacing, 1);
+  }
+
+  &__content--loading {
+    opacity: 0.6;
+  }
+}
+
+@keyframes btn-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

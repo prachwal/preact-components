@@ -1,4 +1,5 @@
 import type { ComponentProps } from 'preact'
+import './styles/paragraph.scss'
 
 interface ParagraphProps extends ComponentProps<'p'> {
   variant?: 'default' | 'muted' | 'small';

@@ -1,6 +1,7 @@
 import preactLogo from '../../assets/preact.svg'
 import viteLogo from '/vite.svg'
 import { Link } from '../link'
+import './styles/logo.scss'
 
 export function Logo() {
   return (

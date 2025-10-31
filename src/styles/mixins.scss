@@ -1,0 +1,208 @@
+@use 'sass:map';
+@use 'variables' as vars;
+
+// Button variant mixin
+@mixin button-variant($bg, $color, $hover-bg, $active-bg) {
+  background-color: $bg;
+  color: $color;
+  transition: background-color vars.$transition-timing map.get(vars.$transitions, base);
+  
+  &:hover:not(:disabled) {
+    background-color: $hover-bg;
+  }
+  
+  &:active:not(:disabled) {
+    background-color: $active-bg;
+  }
+  
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+}
+
+// Flex center mixin
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+// Flex layout mixin
+@mixin flex($direction: row, $justify: flex-start, $align: stretch, $wrap: nowrap) {
+  display: flex;
+  flex-direction: $direction;
+  justify-content: $justify;
+  align-items: $align;
+  flex-wrap: $wrap;
+}
+
+// Transition mixin
+@mixin transition($prop: all, $time: map.get(vars.$transitions, base), $timing: vars.$transition-timing) {
+  transition: $prop $time $timing;
+}
+
+// Responsive breakpoint mixin
+@mixin responsive($breakpoint) {
+  $bp-value: map.get(vars.$breakpoints, $breakpoint);
+  @if $bp-value {
+    @media (min-width: $bp-value) {
+      @content;
+    }
+  } @else {
+    @warn "Unknown breakpoint: #{$breakpoint}";
+  }
+}
+
+// Shadow mixin
+@mixin shadow($size: base) {
+  $shadow-value: map.get(vars.$shadows, $size);
+  @if $shadow-value {
+    box-shadow: $shadow-value;
+  } @else {
+    @warn "Unknown shadow size: #{$size}";
+  }
+}
+
+// Border radius mixin
+@mixin radius($size: base) {
+  $radius-value: map.get(vars.$border-radius, $size);
+  @if $radius-value {
+    border-radius: $radius-value;
+  } @else {
+    @warn "Unknown border radius size: #{$size}";
+  }
+}
+
+// Spacing mixin
+@mixin spacing($property, $size) {
+  $spacing-value: map.get(vars.$spacing, $size);
+  @if $spacing-value {
+    #{$property}: $spacing-value;
+  } @else {
+    @warn "Unknown spacing size: #{$size}";
+  }
+}
+
+// Truncate text mixin
+@mixin truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+// Focus visible mixin
+@mixin focus-visible {
+  &:focus-visible {
+    outline: 2px solid var(--primary-color);
+    outline-offset: 2px;
+  }
+}
+
+// Reset button styles
+@mixin reset-button {
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+  
+  &:focus {
+    outline: none;
+  }
+}
+
+// Card style mixin
+@mixin card($padding: 3) {
+  background-color: var(--bg-color);
+  border: 1px solid var(--border-color);
+  @include radius(md);
+  @include shadow(sm);
+  @include spacing(padding, $padding);
+}
+
+// Visually hidden (for accessibility)
+@mixin visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+// Mobile-first responsive container padding
+@mixin container-padding {
+  padding-left: map.get(vars.$spacing, 2);  // 16px mobile
+  padding-right: map.get(vars.$spacing, 2);
+  
+  @include responsive(sm) {
+    padding-left: map.get(vars.$spacing, 3);  // 24px tablet
+    padding-right: map.get(vars.$spacing, 3);
+  }
+  
+  @include responsive(lg) {
+    padding-left: map.get(vars.$spacing, 4);  // 32px desktop
+    padding-right: map.get(vars.$spacing, 4);
+  }
+}
+
+// Mobile-first font sizes
+@mixin responsive-font($mobile, $tablet: null, $desktop: null) {
+  font-size: map.get(vars.$font-sizes, $mobile);
+  
+  @if $tablet {
+    @include responsive(sm) {
+      font-size: map.get(vars.$font-sizes, $tablet);
+    }
+  }
+  
+  @if $desktop {
+    @include responsive(lg) {
+      font-size: map.get(vars.$font-sizes, $desktop);
+    }
+  }
+}
+
+// Mobile-first spacing
+@mixin responsive-spacing($property, $mobile, $tablet: null, $desktop: null) {
+  #{$property}: map.get(vars.$spacing, $mobile);
+  
+  @if $tablet {
+    @include responsive(sm) {
+      #{$property}: map.get(vars.$spacing, $tablet);
+    }
+  }
+  
+  @if $desktop {
+    @include responsive(lg) {
+      #{$property}: map.get(vars.$spacing, $desktop);
+    }
+  }
+}
+
+// Hide element on specific breakpoint
+@mixin hide-on($breakpoint) {
+  @include responsive($breakpoint) {
+    display: none !important;
+  }
+}
+
+// Show element only on specific breakpoint range
+@mixin show-between($min-bp, $max-bp) {
+  display: none !important;
+  
+  $min-value: map.get(vars.$breakpoints, $min-bp);
+  $max-value: map.get(vars.$breakpoints, $max-bp);
+  
+  @if $min-value and $max-value {
+    @media (min-width: $min-value) and (max-width: calc(#{$max-value} - 1px)) {
+      display: block !important;
+    }
+  }
+}

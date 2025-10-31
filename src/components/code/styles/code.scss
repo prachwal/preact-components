@@ -1,0 +1,14 @@
+@use '../../../styles/variables' as *;
+@use 'sass:map';
+
+// Code variants
+.code-inline {
+  display: inline;
+}
+
+.code-block {
+  display: block;
+  padding: var(--spacing-2);
+  margin: var(--spacing-2) 0;
+  overflow-x: auto;
+}

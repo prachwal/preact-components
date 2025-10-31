@@ -1,0 +1,72 @@
+@use '../../../styles/variables' as vars;
+@use 'sass:map';
+@use '../../../styles/mixins' as mixins;
+
+.checkbox {
+  display: inline-flex;
+  align-items: center;
+  gap: map.get(vars.$spacing, 2);
+  cursor: pointer;
+
+  &__input {
+    appearance: none;
+    width: 18px;
+    height: 18px;
+    border: 2px solid var(--border-color);
+    @include mixins.radius(sm);
+    @include mixins.transition(all);
+    cursor: pointer;
+    position: relative;
+    margin: 0;
+
+    &:hover:not(:disabled) {
+      border-color: var(--primary-color);
+    }
+
+    &:checked {
+      background-color: var(--primary-color);
+      border-color: var(--primary-color);
+
+      &::after {
+        content: '';
+        position: absolute;
+        left: 5px;
+        top: 2px;
+        width: 4px;
+        height: 8px;
+        border: solid white;
+        border-width: 0 2px 2px 0;
+        transform: rotate(45deg);
+      }
+    }
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--primary-color);
+      outline-offset: 2px;
+    }
+  }
+
+  &__label {
+    color: var(--text-color);
+    font-size: map.get(vars.$font-sizes, base);
+    cursor: pointer;
+    -webkit-user-select: none;
+    user-select: none;
+  }
+
+  &--indeterminate &__input:checked {
+    &::after {
+      left: 3px;
+      top: 6px;
+      width: 8px;
+      height: 0;
+      border-width: 0 0 2px 0;
+      transform: none;
+    }
+  }
+}

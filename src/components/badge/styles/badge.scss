@@ -1,0 +1,97 @@
+@use '../../../styles/variables' as vars;
+@use 'sass:map';
+@use '../../../styles/mixins' as mixins;
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: map.get(vars.$spacing, 2);
+  position: relative;
+
+  &__dot {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: var(--error-color);
+
+    // Status colors
+    &--success {
+      background-color: var(--success-color);
+    }
+
+    &--error {
+      background-color: var(--error-color);
+    }
+
+    &--warning {
+      background-color: var(--warning-color);
+    }
+
+    &--info {
+      background-color: var(--info-color);
+    }
+
+    &--default {
+      background-color: var(--text-muted);
+    }
+
+    // Position when used with children
+    .badge:has(:not(.badge__text)) & {
+      position: absolute;
+      top: 0;
+      right: 0;
+      transform: translate(50%, -50%);
+    }
+  }
+
+  &__count {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 20px;
+    height: 20px;
+    padding: 0 6px;
+    font-size: map.get(vars.$font-sizes, xs);
+    font-weight: map.get(vars.$font-weights, medium);
+    line-height: 1;
+    background-color: var(--error-color);
+    color: white;
+    @include mixins.radius(full);
+    white-space: nowrap;
+
+    // Position when used with children
+    .badge:has(:not(.badge__text)) & {
+      position: absolute;
+      top: 0;
+      right: 0;
+      transform: translate(50%, -50%);
+    }
+
+    // Status colors
+    &--success {
+      background-color: var(--success-color);
+    }
+
+    &--error {
+      background-color: var(--error-color);
+    }
+
+    &--warning {
+      background-color: var(--warning-color);
+    }
+
+    &--info {
+      background-color: var(--info-color);
+    }
+
+    &--default {
+      background-color: var(--text-muted);
+    }
+  }
+
+  &__text {
+    color: var(--text-color);
+    font-size: map.get(vars.$font-sizes, sm);
+  }
+}

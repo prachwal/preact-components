@@ -1,0 +1,90 @@
+@use '../../../styles/variables' as vars;
+@use 'sass:map';
+@use '../../../styles/mixins' as mixins;
+
+.switch {
+  display: inline-flex;
+  align-items: center;
+
+  &__input {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+
+    &:checked + .switch__label .switch__slider {
+      background-color: var(--primary-color);
+
+      &::before {
+        transform: translateX(20px);
+      }
+    }
+
+    &:disabled + .switch__label {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    &:focus-visible + .switch__label .switch__slider {
+      outline: 2px solid var(--primary-color);
+      outline-offset: 2px;
+    }
+  }
+
+  &__label {
+    display: inline-flex;
+    align-items: center;
+    gap: map.get(vars.$spacing, 2);
+    cursor: pointer;
+  }
+
+  &__slider {
+    position: relative;
+    display: inline-block;
+    width: 44px;
+    height: 22px;
+    background-color: var(--border-color);
+    border-radius: map.get(vars.$border-radius, full);
+    @include mixins.transition(background-color);
+
+    &::before {
+      content: '';
+      position: absolute;
+      height: 18px;
+      width: 18px;
+      left: 2px;
+      bottom: 2px;
+      background-color: white;
+      border-radius: 50%;
+      @include mixins.transition(transform);
+    }
+  }
+
+  &__text {
+    color: var(--text-color);
+    font-size: map.get(vars.$font-sizes, base);
+    -webkit-user-select: none;
+    user-select: none;
+  }
+
+  // Small size
+  &--small {
+    .switch__slider {
+      width: 32px;
+      height: 16px;
+
+      &::before {
+        height: 12px;
+        width: 12px;
+      }
+    }
+
+    .switch__input:checked + .switch__label .switch__slider::before {
+      transform: translateX(16px);
+    }
+
+    .switch__text {
+      font-size: map.get(vars.$font-sizes, sm);
+    }
+  }
+}

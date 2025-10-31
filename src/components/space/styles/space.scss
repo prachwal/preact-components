@@ -1,0 +1,34 @@
+@use '../../../styles/variables' as vars;
+@use '../../../styles/mixins' as mixins;
+
+.space {
+  display: flex;
+
+  &--horizontal {
+    flex-direction: row;
+  }
+
+  &--vertical {
+    flex-direction: column;
+  }
+
+  &--align-start {
+    align-items: flex-start;
+  }
+
+  &--align-end {
+    align-items: flex-end;
+  }
+
+  &--align-center {
+    align-items: center;
+  }
+
+  &--align-baseline {
+    align-items: baseline;
+  }
+
+  &--wrap {
+    flex-wrap: wrap;
+  }
+}

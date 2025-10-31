@@ -1,0 +1,67 @@
+@use '../../../styles/variables' as vars;
+@use 'sass:map';
+@use '../../../styles/mixins' as mixins;
+
+.divider {
+  border: 0;
+  margin: map.get(vars.$spacing, 3) 0;
+
+  &--horizontal {
+    width: 100%;
+    min-width: 100%;
+    border-top: 1px solid var(--border-color);
+
+    &.divider--with-text {
+      display: flex;
+      align-items: center;
+      margin: map.get(vars.$spacing, 4) 0;
+      color: var(--text-muted);
+      font-size: map.get(vars.$font-sizes, sm);
+      white-space: nowrap;
+      text-align: center;
+
+      &::before,
+      &::after {
+        content: '';
+        flex: 1;
+        border-top: 1px solid var(--border-color);
+      }
+
+      &::before {
+        margin-right: map.get(vars.$spacing, 2);
+      }
+
+      &::after {
+        margin-left: map.get(vars.$spacing, 2);
+      }
+    }
+
+    &.divider--plain {
+      .divider__text {
+        font-weight: map.get(vars.$font-weights, normal);
+      }
+    }
+  }
+
+  &--vertical {
+    display: inline-block;
+    height: 1em;
+    margin: 0 map.get(vars.$spacing, 1);
+    vertical-align: middle;
+    border-left: 1px solid var(--border-color);
+  }
+
+  &--dashed {
+    border-style: dashed;
+
+    &.divider--horizontal::before,
+    &.divider--horizontal::after {
+      border-style: dashed;
+    }
+  }
+
+  &__text {
+    display: inline-block;
+    padding: 0 map.get(vars.$spacing, 1);
+  }
+}

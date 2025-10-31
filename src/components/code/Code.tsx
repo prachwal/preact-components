@@ -1,4 +1,5 @@
 import type { ComponentProps } from 'preact'
+import './styles/code.scss'
 
 interface CodeProps extends ComponentProps<'code'> {
   inline?: boolean;

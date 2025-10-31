@@ -1,0 +1,26 @@
+@use '../../../styles/variables' as *;
+
+// Link variants
+.link-primary {
+  color: var(--primary-color);
+
+  &:hover {
+    color: var(--primary-hover);
+  }
+}
+
+.link-secondary {
+  color: var(--secondary-color);
+
+  &:hover {
+    opacity: 0.8;
+  }
+}
+
+.link-muted {
+  color: var(--text-muted);
+
+  &:hover {
+    color: var(--text-color);
+  }
+}

@@ -1,0 +1,11 @@
+@use '../../../styles/variables' as *;
+@use 'sass:map';
+
+// Paragraph variants
+.p-muted {
+  color: var(--text-muted);
+}
+
+.p-small {
+  font-size: map.get($font-sizes, sm);
+}

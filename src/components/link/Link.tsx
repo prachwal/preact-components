@@ -1,4 +1,5 @@
 import type { ComponentProps } from 'preact'
+import './styles/link.scss'
 
 interface LinkProps extends ComponentProps<'a'> {
   variant?: 'primary' | 'secondary' | 'muted';

@@ -1,0 +1,16 @@
+@use '../../../styles/variables' as *;
+@use 'sass:map';
+
+.logo {
+  height: 6em;
+  padding: var(--spacing-3);
+  transition: filter var(--transition-base) $transition-timing;
+}
+
+.logo:hover {
+  filter: drop-shadow(0 0 2em #{var(--primary-color)}aa);
+}
+
+.logo.preact:hover {
+  filter: drop-shadow(0 0 2em #{var(--secondary-color)}aa);
+}

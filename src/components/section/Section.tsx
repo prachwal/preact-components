@@ -1,4 +1,5 @@
 import type { ComponentProps } from 'preact'
+import './styles/section.scss'
 
 interface SectionProps extends ComponentProps<'section'> {
   variant?: 'default' | 'card' | 'hero';

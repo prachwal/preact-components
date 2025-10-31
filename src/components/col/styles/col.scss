@@ -1,0 +1,70 @@
+@use '../../../styles/variables' as vars;
+@use '../../../styles/mixins' as mixins;
+@use 'sass:math';
+@use 'sass:map';
+
+.col {
+  position: relative;
+  max-width: 100%;
+  padding-left: map.get(vars.$spacing, 2);
+  padding-right: map.get(vars.$spacing, 2);
+  flex: 0 0 auto;
+
+  // Generate column widths (1-24 grid system)
+  @for $i from 1 through 24 {
+    &--#{$i} {
+      flex: 0 0 auto;
+      width: math.percentage(math.div($i, 24));
+    }
+
+    &--offset-#{$i} {
+      margin-left: math.percentage(math.div($i, 24));
+    }
+  }
+
+  // Responsive columns
+  @include mixins.responsive(xs) {
+    @for $i from 1 through 24 {
+      &--xs-#{$i} {
+        flex: 0 0 auto;
+        width: math.percentage(math.div($i, 24));
+      }
+    }
+  }
+
+  @include mixins.responsive(sm) {
+    @for $i from 1 through 24 {
+      &--sm-#{$i} {
+        flex: 0 0 auto;
+        width: math.percentage(math.div($i, 24));
+      }
+    }
+  }
+
+  @include mixins.responsive(md) {
+    @for $i from 1 through 24 {
+      &--md-#{$i} {
+        flex: 0 0 auto;
+        width: math.percentage(math.div($i, 24));
+      }
+    }
+  }
+
+  @include mixins.responsive(lg) {
+    @for $i from 1 through 24 {
+      &--lg-#{$i} {
+        flex: 0 0 auto;
+        width: math.percentage(math.div($i, 24));
+      }
+    }
+  }
+
+  @include mixins.responsive(xl) {
+    @for $i from 1 through 24 {
+      &--xl-#{$i} {
+        flex: 0 0 auto;
+        width: math.percentage(math.div($i, 24));
+      }
+    }
+  }
+}

@@ -1,0 +1,8 @@
+@use './styles/variables.scss' as vars;
+
+#app {
+  max-width: map.get(vars.$breakpoints, xl);
+  margin: 0 auto;
+  // padding: var(--spacing-4);
+  text-align: center;
+}
