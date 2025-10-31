@@ -1,10 +1,19 @@
 import { defineConfig } from 'vite'
 import preact from '@preact/preset-vite'
 import dts from 'vite-plugin-dts'
+import path, { resolve } from 'path'
+import { fileURLToPath } from 'url'
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [preact(), dts({ include: ['src'], exclude: ['src/app.tsx'], tsconfigPath: './tsconfig.app.json' })],
+  resolve: {
+    alias: {
+      '@': resolve(__dirname, './src')
+    }
+  },
   build: {
     lib: {
       entry: 'src/index.ts',

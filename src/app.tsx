@@ -1,5 +1,8 @@
 import { useState } from 'preact/hooks'
-import { Button, Logo, Link, Code, Paragraph, Heading, Header, Main, Section, Footer } from './components'
+import { 
+  Button, Logo, Link, Code, Paragraph, Heading, 
+  Header, Main, Section, Footer 
+} from '@/components'
 
 export function App() {
   const [count, setCount] = useState(0)
