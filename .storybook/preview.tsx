@@ -1,4 +1,4 @@
-import type { Preview, Decorator } from '@storybook/preact-vite';
+import type { Preview, Decorator } from '@storybook/preact';
 import { withThemeByDataAttribute } from '@storybook/addon-themes';
 import { h } from 'preact';
 import { ThemeProvider } from '../src/components/theme';
@@ -7,12 +7,12 @@ import '../src/styles/index.scss';
 const withThemeProvider: Decorator = (Story, context) => {
   const { globals } = context;
   const theme = globals.theme === 'dark' ? 'dark' : 'light';
-  const variant = globals.variant || 'base';
-  
+  const variant = (globals.variant || 'base') as 'base' | 'sepia' | 'forest' | 'ocean';
+
   return h(
     ThemeProvider,
-    { defaultTheme: theme, defaultVariant: variant },
-    h('div', { style: { padding: '1rem' } }, h(Story as any))
+    { defaultTheme: theme, defaultVariant: variant } as any,
+    h('div', { style: { padding: '1rem', backgroundColor: 'var(--bg-color)' } }, h(Story, {}))
   );
 };
 
