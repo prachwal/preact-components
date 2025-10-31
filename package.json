@@ -22,17 +22,26 @@
     "build": "vite build && npm run build:css",
     "build:css": "sass src/styles/index.scss dist/index.css --style compressed",
     "preview": "vite preview",
-    "type-check": "tsc --noEmit"
+    "type-check": "tsc --noEmit",
+    "test": "vitest",
+    "test:ui": "vitest --ui",
+    "test:coverage": "vitest --coverage"
   },
   "dependencies": {
     "preact": "^10.27.2"
   },
   "devDependencies": {
     "@preact/preset-vite": "^2.10.2",
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/preact": "^3.2.4",
     "@types/node": "^24.9.2",
+    "@vitest/coverage-v8": "^4.0.6",
+    "happy-dom": "^20.0.10",
+    "jsdom": "^27.1.0",
     "sass": "^1.93.2",
     "typescript": "~5.9.3",
     "vite": "^7.1.12",
-    "vite-plugin-dts": "^4.5.4"
+    "vite-plugin-dts": "^4.5.4",
+    "vitest": "^4.0.6"
   }
 }
