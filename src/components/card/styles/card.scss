@@ -49,3 +49,14 @@
     padding: map.get(vars.$spacing, 4);
   }
 }
+
+// Override for stat-card
+.stat-card {
+  .card__body {
+    padding: 2rem 1.5rem; // Mniej bocznego, więcej pionowego
+    display: flex;
+    flex-direction: column;
+    align-items: center; // Wyrównaj ikonę i tekst centralnie
+    gap: 0.5rem; // Globalny gap między elementami
+  }
+}
