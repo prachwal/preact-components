@@ -27,6 +27,9 @@ coverage
 *.tsbuildinfo
 .cache
 
+# Storybook build output
+storybook-static
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
@@ -37,3 +40,6 @@ coverage
 *.njsproj
 *.sln
 *.sw?
+
+*storybook.log
+storybook-static
