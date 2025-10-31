@@ -4,8 +4,10 @@
   "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "style": "dist/index.css",
   "files": [
-    "dist"
+    "dist",
+    "src/styles"
   ],
   "repository": {
     "type": "git",
@@ -17,7 +19,8 @@
   },
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "vite build && npm run build:css",
+    "build:css": "sass src/styles/index.scss dist/index.css --style compressed",
     "preview": "vite preview"
   },
   "dependencies": {
@@ -25,6 +28,7 @@
   },
   "devDependencies": {
     "@preact/preset-vite": "^2.10.2",
+    "sass": "^1.93.2",
     "typescript": "~5.9.3",
     "vite": "^7.1.12",
     "vite-plugin-dts": "^4.5.4"
