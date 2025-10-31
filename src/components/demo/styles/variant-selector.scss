@@ -1,0 +1,97 @@
+@use '../../../styles/variables' as vars;
+@use '../../../styles/mixins' as mixins;
+@use 'sass:map';
+
+.variant-selector {
+  position: relative;
+
+  &__button {
+    display: flex;
+    align-items: center;
+    gap: map.get(vars.$spacing, 2);
+    padding: map.get(vars.$spacing, 2) map.get(vars.$spacing, 3);
+    border: 1px solid var(--border-color);
+    background-color: var(--bg-primary);
+    color: var(--text-color);
+    cursor: pointer;
+    @include mixins.radius(base);
+    @include mixins.transition(all);
+    font-size: map.get(vars.$font-sizes, sm);
+    min-height: 36px;
+
+    &:hover {
+      border-color: var(--border-hover);
+      background-color: var(--bg-secondary);
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--primary-color);
+      outline-offset: 2px;
+    }
+  }
+
+  &__emoji {
+    font-size: 1.125rem;
+    line-height: 1;
+  }
+
+  &__label {
+    @media (max-width: 640px) {
+      display: none;
+    }
+  }
+
+  &__arrow {
+    margin-left: auto;
+    @include mixins.transition(transform);
+
+    &--open {
+      transform: rotate(180deg);
+    }
+  }
+
+  &__dropdown {
+    position: absolute;
+    top: calc(100% + 4px);
+    right: 0;
+    min-width: 160px;
+    padding: map.get(vars.$spacing, 1);
+    margin: 0;
+    list-style: none;
+    background-color: var(--bg-primary);
+    border: 1px solid var(--border-color);
+    @include mixins.radius(base);
+    box-shadow: map.get(vars.$shadows, lg);
+    z-index: map.get(vars.$z-index, dropdown);
+  }
+
+  &__option {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: map.get(vars.$spacing, 2);
+    padding: map.get(vars.$spacing, 2) map.get(vars.$spacing, 3);
+    border: none;
+    background-color: transparent;
+    color: var(--text-color);
+    cursor: pointer;
+    @include mixins.radius(sm);
+    @include mixins.transition(background-color);
+    text-align: left;
+    font-size: map.get(vars.$font-sizes, sm);
+
+    &:hover {
+      background-color: var(--bg-secondary);
+    }
+
+    &--active {
+      background-color: var(--bg-secondary);
+      font-weight: map.get(vars.$font-weights, medium);
+    }
+  }
+
+  &__check {
+    margin-left: auto;
+    color: var(--primary-color);
+  }
+}
