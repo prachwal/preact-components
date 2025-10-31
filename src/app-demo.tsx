@@ -62,7 +62,7 @@ function AppHeader({ onMenuToggle }: { onMenuToggle: () => void }) {
 }
 
 function AppContent() {
-  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(false); // Start collapsed on desktop
   const [activePage, setActivePage] = useState<PageId>('dashboard');
 
   const handleMenuToggle = () => {
@@ -72,7 +72,7 @@ function AppContent() {
   const handlePageChange = (pageId: PageId) => {
     setActivePage(pageId);
     // Don't auto-close sidebar on desktop
-    if (window.innerWidth < 768) {
+    if (typeof window !== 'undefined' && window.innerWidth < 768) {
       setSidebarOpen(false);
     }
   };
@@ -125,7 +125,7 @@ function AppContent() {
         </div>
       </Sidebar>
 
-      <Main className="app-main">
+      <Main className={`app-main ${sidebarOpen ? 'app-main--expanded' : ''}`}>
         <Container maxWidth="xl" className="app-main__content">
           {renderPage()}
         </Container>
