@@ -22,7 +22,10 @@
     "build": "vite build && npm run build:css",
     "build:css": "sass src/styles/index.scss dist/index.css --style compressed",
     "preview": "vite preview",
-    "type-check": "tsc --noEmit"
+    "type-check": "tsc --noEmit",
+    "docs:generate": "typedoc",
+    "docs:watch": "typedoc --watch",
+    "docs:serve": "npm run docs:generate && npx http-server docs -p 8080 -o"
   },
   "dependencies": {
     "preact": "^10.27.2"
@@ -31,6 +34,8 @@
     "@preact/preset-vite": "^2.10.2",
     "@types/node": "^24.9.2",
     "sass": "^1.93.2",
+    "typedoc": "^0.28.14",
+    "typedoc-plugin-markdown": "^4.9.0",
     "typescript": "~5.9.3",
     "vite": "^7.1.12",
     "vite-plugin-dts": "^4.5.4"
