@@ -12,6 +12,10 @@ dist
 dist-ssr
 *.local
 
+# Test coverage
+coverage
+.coverage
+*.lcov
 # Documentation (dynamically generated)
 docs
 
