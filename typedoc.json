@@ -1,0 +1,30 @@
+{
+  "$schema": "https://typedoc.org/schema.json",
+  "entryPoints": ["./src/index.ts"],
+  "entryPointStrategy": "expand",
+  "out": "docs",
+  "exclude": [
+    "**/node_modules/**",
+    "**/*.test.ts",
+    "**/*.test.tsx",
+    "**/app.tsx",
+    "**/app-demo.tsx",
+    "**/main.tsx"
+  ],
+  "excludePrivate": true,
+  "excludeProtected": false,
+  "excludeExternals": true,
+  "includeVersion": true,
+  "readme": "README.md",
+  "name": "Preact Components",
+  "plugin": [],
+  "categorizeByGroup": true,
+  "sort": ["source-order"],
+  "validation": {
+    "notExported": true,
+    "invalidLink": true,
+    "notDocumented": false
+  },
+  "treatWarningsAsErrors": false,
+  "treatValidationWarningsAsErrors": false
+}
