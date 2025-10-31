@@ -1,8 +1,167 @@
-@use './styles/variables.scss' as vars;
+@use './styles/variables' as vars;
+@use './styles/mixins' as mixins;
 
-#app {
-  max-width: map.get(vars.$breakpoints, xl);
-  margin: 0 auto;
-  // padding: var(--spacing-4);
+// App Layout
+.app-layout {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.app-main {
+  margin-top: 64px; // Navbar height
+  margin-left: 256px; // Sidebar width
+  min-height: calc(100vh - 64px);
+  transition: margin-left 0.3s ease;
+  display: flex;
+  flex-direction: column;
+
+  @include mixins.responsive(md) {
+    &--expanded {
+      margin-left: 80px; // Collapsed sidebar width
+    }
+  }
+
+  // Mobile - no sidebar offset
+  @media (max-width: 767px) {
+    margin-left: 0;
+  }
+}
+
+// Sidebar Menu
+.sidebar-menu {
+  padding: vars.$spacing-2 0;
+
+  &__item {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: vars.$spacing-3;
+    padding: vars.$spacing-3 vars.$spacing-4;
+    border: none;
+    background: transparent;
+    color: var(--text-color);
+    cursor: pointer;
+    border-radius: vars.$border-radius-base;
+    transition: all 0.2s ease;
+    font-size: 1rem;
+    text-align: left;
+
+    &:hover {
+      background-color: var(--bg-hover);
+    }
+
+    &--active {
+      background-color: var(--primary-color);
+      color: var(--bg-primary);
+      font-weight: 600;
+    }
+  }
+
+  &__icon {
+    font-size: 1.25rem;
+    flex-shrink: 0;
+  }
+
+  &__label {
+    flex: 1;
+  }
+}
+
+// Footer
+.app-footer {
+  margin-top: auto;
+  padding: vars.$spacing-8 0 vars.$spacing-4;
+  background-color: var(--bg-secondary);
+  border-top: 1px solid var(--border-color);
+}
+
+.footer-link {
+  color: var(--text-muted);
+  text-decoration: none;
+  transition: color 0.2s ease;
+
+  &:hover {
+    color: var(--primary-color);
+  }
+}
+
+.footer-social {
+  font-size: 1.5rem;
+  text-decoration: none;
+  transition: transform 0.2s ease;
+  display: inline-block;
+
+  &:hover {
+    transform: scale(1.1);
+  }
+}
+
+// Stats Cards
+.stat-card {
   text-align: center;
+  margin-bottom: vars.$spacing-3;
+
+  @include mixins.responsive(lg) {
+    margin-bottom: 0;
+  }
+
+  &__icon {
+    font-size: 3rem;
+    opacity: 0.8;
+  }
+}
+
+// Demo Boxes
+.demo-box {
+  padding: vars.$spacing-4;
+  background: var(--bg-secondary);
+  border-radius: vars.$border-radius-base;
+  text-align: center;
+  margin-bottom: vars.$spacing-2;
+}
+
+// Form Labels
+.form-label {
+  display: block;
+  margin-bottom: vars.$spacing-2;
+  font-weight: 500;
+  color: var(--text-color);
+}
+
+// Theme Cards
+.theme-card {
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-bottom: vars.$spacing-3;
+
+  @include mixins.responsive(sm) {
+    margin-bottom: 0;
+  }
+
+  &__swatch {
+    height: 80px;
+    border-radius: vars.$border-radius-base;
+    
+    &--base {
+      background: linear-gradient(135deg, #FFB300 0%, #FF5722 100%);
+    }
+
+    &--sepia {
+      background: linear-gradient(135deg, #8B6F47 0%, #6D4C41 100%);
+    }
+
+    &--forest {
+      background: linear-gradient(135deg, #43A047 0%, #795548 100%);
+    }
+
+    &--ocean {
+      background: linear-gradient(135deg, #039BE5 0%, #009688 100%);
+    }
+  }
+
+  &--active {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 2px var(--primary-color);
+  }
 }

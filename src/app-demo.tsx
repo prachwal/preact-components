@@ -1,11 +1,14 @@
-import { useState } from 'preact/hooks';
-import { ThemeProvider } from './components';
-import { 
-  Container, 
-  Row, 
-  Col, 
-  Flex, 
-  Space, 
+﻿import { useState } from 'preact/hooks';
+import {
+  ThemeProvider,
+  useTheme,
+  Sidebar,
+  Navbar,
+  Container,
+  Row,
+  Col,
+  Flex,
+  Space,
   Divider,
   Card,
   Badge,
@@ -17,356 +20,507 @@ import {
   Select,
   Button,
   Heading,
-  Paragraph
-} from './components';
-import './styles/index.scss';
+  Paragraph,
+  Footer,
+  Main,
+  Logo,
+} from '@/components';
+import '@/styles/index.scss';
+import './app.scss';
 
-export function App() {
+function AppContent() {
+  const { theme, setTheme, variant, setVariant } = useTheme();
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+  const [activeSection, setActiveSection] = useState('dashboard');
   const [inputValue, setInputValue] = useState('');
   const [checkboxChecked, setCheckboxChecked] = useState(false);
-  const [radioValue, setRadioValue] = useState('option1');
+  const [radioValue, setRadioValue] = useState('monthly');
   const [switchChecked, setSwitchChecked] = useState(false);
   const [selectValue, setSelectValue] = useState('');
 
+  const menuItems = [
+    { id: 'dashboard', label: 'Dashboard', icon: '📊' },
+    { id: 'components', label: 'Components', icon: '🧩' },
+    { id: 'forms', label: 'Forms', icon: '📝' },
+    { id: 'data', label: 'Data Display', icon: '📈' },
+    { id: 'settings', label: 'Settings', icon: '⚙️' },
+  ];
+
   return (
-    <ThemeProvider defaultTheme="system" defaultVariant="base">
-      <Container maxWidth="xl" className="py-4 py-md-6">
-        <Space direction="vertical" size="large" className="w-100">
-          {/* Header */}
-          {/* eslint-disable react/forbid-dom-props */}
-          <div className="text-center">
-            <Heading level={1}>Preact Component Library Demo</Heading>
-            <Paragraph variant="muted">
-              A comprehensive UI component system inspired by Ant Design and Material-UI
-            </Paragraph>
-          </div>
+    <div className="app-layout">
+      {/* Navbar */}
+      <Navbar
+        fixed
+        logo={
+          <Flex align="center" gap={8}>
+            <Logo />
+            <Heading level={4} className="m-0">Preact UI</Heading>
+          </Flex>
+        }
+        extra={
+          <Space size="middle">
+            <Select
+              value={variant}
+              onChange={(e) => setVariant((e.target as HTMLSelectElement).value as any)}
+              options={[
+                { value: 'base', label: '🎨 Base' },
+                { value: 'sepia', label: '📜 Sepia' },
+                { value: 'forest', label: '🌲 Forest' },
+                { value: 'ocean', label: '🌊 Ocean' },
+              ]}
+            />
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
+            >
+              {theme === 'light' ? '🌙' : '☀️'}
+            </Button>
+            <Badge count={5}>
+              <Button variant="ghost" size="sm">🔔</Button>
+            </Badge>
+            <Button variant="ghost" size="sm">👤</Button>
+          </Space>
+        }
+        onMenuToggle={(open) => {
+          if (open) setSidebarCollapsed(false);
+        }}
+      />
 
-          <Divider />
+      {/* Sidebar */}
+      <Sidebar
+        collapsed={sidebarCollapsed}
+        onCollapse={setSidebarCollapsed}
+        breakpoint="md"
+        theme={theme === 'dark' ? 'dark' : 'light'}
+      >
+        <div className="sidebar-menu">
+          <Space direction="vertical" size="small" className="w-100">
+            {menuItems.map((item) => (
+              <button
+                key={item.id}
+                className={`sidebar-menu__item ${
+                  activeSection === item.id ? 'sidebar-menu__item--active' : ''
+                }`}
+                onClick={() => setActiveSection(item.id)}
+              >
+                <span className="sidebar-menu__icon">{item.icon}</span>
+                {!sidebarCollapsed && (
+                  <span className="sidebar-menu__label">{item.label}</span>
+                )}
+              </button>
+            ))}
+          </Space>
+        </div>
+      </Sidebar>
 
-          {/* Layout Components */}
-          <Card title="Layout Components" bordered hoverable>
-            <Space direction="vertical" size="large" className="w-100">
-              <div>
-                <Heading level={3}>Grid System (24 columns)</Heading>
-                {/* Mobile: full width, Tablet+: 2 columns */}
+      {/* Main Content */}
+      <Main className={`app-main ${sidebarCollapsed ? 'app-main--expanded' : ''}`}>
+        <Container maxWidth="xl" className="py-4 py-md-6">
+          <Space direction="vertical" size="large" className="w-100">
+            {/* Dashboard Section */}
+            {activeSection === 'dashboard' && (
+              <>
+                <div>
+                  <Heading level={1}>Dashboard</Heading>
+                  <Paragraph variant="muted">
+                    Welcome to Preact Component Library
+                  </Paragraph>
+                </div>
+
+                {/* Stats Cards */}
                 <Row gutter={16}>
-                  <Col xs={24} sm={12}>
-                    {/* eslint-disable-next-line react/forbid-dom-props */}
-                    <div style={{ padding: '16px', background: 'var(--bg-secondary)', borderRadius: '8px', marginBottom: '8px' }}>
-                      Col 12
-                    </div>
+                  <Col xs={24} sm={12} lg={6}>
+                    <Card bordered hoverable className="stat-card">
+                      <div className="stat-card__icon">👥</div>
+                      <Heading level={3} className="mt-3 mb-1">
+                        2,847
+                      </Heading>
+                      <Paragraph variant="muted" className="mb-0">
+                        Users
+                      </Paragraph>
+                    </Card>
                   </Col>
-                  <Col xs={24} sm={12}>
-                    {/* eslint-disable-next-line react/forbid-dom-props */}
-                    <div style={{ padding: '16px', background: 'var(--bg-secondary)', borderRadius: '8px', marginBottom: '8px' }}>
-                      Col 12
-                    </div>
+                  <Col xs={24} sm={12} lg={6}>
+                    <Card bordered hoverable className="stat-card">
+                      <div className="stat-card__icon">📦</div>
+                      <Heading level={3} className="mt-3 mb-1">
+                        1,234
+                      </Heading>
+                      <Paragraph variant="muted" className="mb-0">
+                        Projects
+                      </Paragraph>
+                    </Card>
+                  </Col>
+                  <Col xs={24} sm={12} lg={6}>
+                    <Card bordered hoverable className="stat-card">
+                      <div className="stat-card__icon">💰</div>
+                      <Heading level={3} className="mt-3 mb-1">
+                        $45.2k
+                      </Heading>
+                      <Paragraph variant="muted" className="mb-0">
+                        Revenue
+                      </Paragraph>
+                    </Card>
+                  </Col>
+                  <Col xs={24} sm={12} lg={6}>
+                    <Card bordered hoverable className="stat-card">
+                      <div className="stat-card__icon">⭐</div>
+                      <Heading level={3} className="mt-3 mb-1">
+                        98.5%
+                      </Heading>
+                      <Paragraph variant="muted" className="mb-0">
+                        Score
+                      </Paragraph>
+                    </Card>
                   </Col>
                 </Row>
-                {/* eslint-disable-next-line react/forbid-dom-props */}
-                <div className="mt-2 mt-md-3">
-                  {/* Mobile: full width, Tablet+: 3 columns */}
-                  <Row gutter={16}>
-                    <Col xs={24} sm={12} md={8}>
-                      {/* eslint-disable-next-line react/forbid-dom-props */}
-                      <div style={{ padding: '16px', background: 'var(--bg-secondary)', borderRadius: '8px', marginBottom: '8px' }}>
-                        Col 8
-                      </div>
-                    </Col>
-                    <Col xs={24} sm={12} md={8}>
-                      {/* eslint-disable-next-line react/forbid-dom-props */}
-                      <div style={{ padding: '16px', background: 'var(--bg-secondary)', borderRadius: '8px', marginBottom: '8px' }}>
-                        Col 8
-                      </div>
-                    </Col>
-                    <Col xs={24} sm={12} md={8}>
-                      {/* eslint-disable-next-line react/forbid-dom-props */}
-                      <div style={{ padding: '16px', background: 'var(--bg-secondary)', borderRadius: '8px', marginBottom: '8px' }}>
-                        Col 8
-                      </div>
-                    </Col>
-                  </Row>
+
+                {/* Alert */}
+                <Alert
+                  type="info"
+                  message="System Update Available"
+                  description="A new version is available. Update to get the latest features."
+                  showIcon
+                  closable
+                />
+              </>
+            )}
+
+            {/* Components Section */}
+            {activeSection === 'components' && (
+              <>
+                <div>
+                  <Heading level={1}>Components</Heading>
+                  <Paragraph variant="muted">
+                    Explore our component library
+                  </Paragraph>
                 </div>
-              </div>
 
-              <div>
-                <Heading level={3}>Flex Layout</Heading>
-                {/* Stack on mobile, horizontal on tablet+ */}
-                <Flex 
-                  direction="column" 
-                  gap={16}
-                  className="flex-sm-row justify-sm-between"
-                >
-                  {/* eslint-disable-next-line react/forbid-dom-props */}
-                  <div style={{ padding: '16px', background: 'var(--bg-secondary)', borderRadius: '8px' }}>
-                    Flex Item 1
-                  </div>
-                  {/* eslint-disable-next-line react/forbid-dom-props */}
-                  <div style={{ padding: '16px', background: 'var(--bg-secondary)', borderRadius: '8px' }}>
-                    Flex Item 2
-                  </div>
-                  {/* eslint-disable-next-line react/forbid-dom-props */}
-                  <div style={{ padding: '16px', background: 'var(--bg-secondary)', borderRadius: '8px' }}>
-                    Flex Item 3
-                  </div>
-                </Flex>
-              </div>
-
-              <div>
-                <Heading level={3}>Space</Heading>
-                {/* Stack on mobile, horizontal on tablet+ */}
-                <Space size="large" className="flex-column flex-sm-row">
-                  <Button variant="primary">Button 1</Button>
-                  <Button variant="secondary">Button 2</Button>
-                  <Button variant="outline">Button 3</Button>
-                </Space>
-              </div>
-
-              <Divider>Divider with Text</Divider>
-              <Divider dashed />
-            </Space>
-          </Card>
-
-          {/* Form Components */}
-          <Card title="Form Components" bordered hoverable>
-            <Space direction="vertical" size="large" className="w-100">
-              <div>
-                <Heading level={3}>Input</Heading>
-                <Space direction="vertical" size="middle" className="w-100">
-                  <Input 
-                    placeholder="Default input" 
-                    value={inputValue}
-                    onInput={(e) => setInputValue((e.target as HTMLInputElement).value)}
-                    fullWidth
-                  />
-                  <Row gutter={16}>
-                    <Col xs={24} sm={12}>
-                      <Input 
-                        placeholder="Small input" 
-                        size="small"
-                        fullWidth
+                <Row gutter={16}>
+                  <Col xs={24} md={12} lg={8}>
+                    <Card title="Buttons" bordered hoverable>
+                      <Space size="middle" wrap>
+                        <Button variant="primary">Primary</Button>
+                        <Button variant="secondary">Secondary</Button>
+                        <Button variant="outline">Outline</Button>
+                      </Space>
+                    </Card>
+                  </Col>
+                  <Col xs={24} md={12} lg={8}>
+                    <Card title="Badges" bordered hoverable>
+                      <Space size="middle" wrap>
+                        <Badge count={5}>
+                          <Button>Notifications</Button>
+                        </Badge>
+                        <Badge status="success" text="Active" />
+                        <Badge status="error" text="Error" />
+                      </Space>
+                    </Card>
+                  </Col>
+                  <Col xs={24} md={12} lg={8}>
+                    <Card title="Alerts" bordered hoverable>
+                      <Alert
+                        type="success"
+                        message="Success"
+                        showIcon
                       />
-                    </Col>
-                    <Col xs={24} sm={12}>
-                      <Input 
-                        placeholder="Large input" 
-                        size="large"
-                        fullWidth
-                      />
-                    </Col>
-                  </Row>
-                  <Input 
-                    placeholder="Input with prefix" 
-                    prefix="$"
-                    suffix=".00"
-                    fullWidth
-                  />
-                  <Input 
-                    placeholder="Error state" 
-                    error
-                    fullWidth
-                  />
-                </Space>
-              </div>
+                    </Card>
+                  </Col>
+                </Row>
+              </>
+            )}
 
-              <div>
-                <Heading level={3}>Select</Heading>
-                <Space direction="vertical" size="middle" className="w-100">
-                  <Select 
-                    value={selectValue}
-                    onChange={(e) => setSelectValue((e.target as HTMLSelectElement).value)}
-                    fullWidth
-                    options={[
-                      { value: '', label: 'Choose an option' },
-                      { value: 'option1', label: 'Option 1' },
-                      { value: 'option2', label: 'Option 2' },
-                      { value: 'option3', label: 'Option 3' }
-                    ]}
-                  />
-                  <Select 
-                    size="small"
-                    fullWidth
-                    options={[
-                      { value: '', label: 'Small select' },
-                      { value: 'a', label: 'Option A' },
-                      { value: 'b', label: 'Option B' }
-                    ]}
-                  />
-                </Space>
-              </div>
+            {/* Forms Section */}
+            {activeSection === 'forms' && (
+              <>
+                <div>
+                  <Heading level={1}>Forms</Heading>
+                  <Paragraph variant="muted">
+                    Form components and inputs
+                  </Paragraph>
+                </div>
 
-              <div>
-                <Heading level={3}>Checkbox & Radio</Heading>
-                {/* Stack on mobile, side-by-side on tablet+ */}
+                <Card title="Form Example" bordered>
+                  <Space direction="vertical" size="large" className="w-100">
+                    <Input
+                      placeholder="Enter your name"
+                      value={inputValue}
+                      onInput={(e) => setInputValue((e.target as HTMLInputElement).value)}
+                      fullWidth
+                    />
+
+                    <Select
+                      value={selectValue}
+                      onChange={(e) => setSelectValue((e.target as HTMLSelectElement).value)}
+                      fullWidth
+                      options={[
+                        { value: '', label: 'Choose an option' },
+                        { value: 'option1', label: 'Option 1' },
+                        { value: 'option2', label: 'Option 2' },
+                      ]}
+                    />
+
+                    <Checkbox
+                      label="I agree to terms and conditions"
+                      checked={checkboxChecked}
+                      onChange={(e) => setCheckboxChecked((e.target as HTMLInputElement).checked)}
+                    />
+
+                    <div>
+                      <Paragraph className="mb-2">Billing Cycle:</Paragraph>
+                      <Space direction="vertical" size="small">
+                        <Radio
+                          label="Monthly"
+                          name="billing"
+                          value="monthly"
+                          checked={radioValue === 'monthly'}
+                          onChange={(e) => setRadioValue((e.target as HTMLInputElement).value)}
+                        />
+                        <Radio
+                          label="Yearly"
+                          name="billing"
+                          value="yearly"
+                          checked={radioValue === 'yearly'}
+                          onChange={(e) => setRadioValue((e.target as HTMLInputElement).value)}
+                        />
+                      </Space>
+                    </div>
+
+                    <Switch
+                      label="Enable notifications"
+                      checked={switchChecked}
+                      onChange={(e) => setSwitchChecked((e.target as HTMLInputElement).checked)}
+                    />
+
+                    <Button variant="primary" size="lg">Submit Form</Button>
+                  </Space>
+                </Card>
+              </>
+            )}
+
+            {/* Data Display Section */}
+            {activeSection === 'data' && (
+              <>
+                <div>
+                  <Heading level={1}>Data Display</Heading>
+                  <Paragraph variant="muted">
+                    Display your data beautifully
+                  </Paragraph>
+                </div>
+
                 <Row gutter={16}>
                   <Col xs={24} md={12}>
-                    <Space direction="vertical" size="middle">
-                      <Checkbox 
-                        label="Checkbox option"
-                        checked={checkboxChecked}
-                        onChange={(e) => setCheckboxChecked((e.target as HTMLInputElement).checked)}
-                      />
-                      <Checkbox label="Disabled checkbox" disabled />
-                    </Space>
-                  </Col>
-                  <Col xs={24} md={12} className="mt-3 mt-md-0">
-                    <Space direction="vertical" size="middle">
-                      <Radio 
-                        label="Radio option 1"
-                        name="demo-radio"
-                        value="option1"
-                        checked={radioValue === 'option1'}
-                        onChange={(e) => setRadioValue((e.target as HTMLInputElement).value)}
-                      />
-                      <Radio 
-                        label="Radio option 2"
-                        name="demo-radio"
-                        value="option2"
-                        checked={radioValue === 'option2'}
-                        onChange={(e) => setRadioValue((e.target as HTMLInputElement).value)}
-                      />
-                    </Space>
-                  </Col>
-                </Row>
-              </div>
-
-              <div>
-                <Heading level={3}>Switch</Heading>
-                {/* Stack on mobile, horizontal on tablet+ */}
-                <Space size="large" className="flex-column flex-sm-row">
-                  <Switch 
-                    label="Default switch"
-                    checked={switchChecked}
-                    onChange={(e) => setSwitchChecked((e.target as HTMLInputElement).checked)}
-                  />
-                  <Switch label="Small switch" size="small" />
-                  <Switch label="Disabled switch" disabled />
-                </Space>
-              </div>
-            </Space>
-          </Card>
-
-          {/* Data Display Components */}
-          <Card title="Data Display Components" bordered hoverable>
-            <Space direction="vertical" size="large" className="w-100">
-              <div>
-                <Heading level={3}>Badge</Heading>
-                {/* Wrap and stack on mobile */}
-                <Space size="large" wrap className="flex-wrap">
-                  <Badge count={5}>
-                    <Button variant="outline">Notifications</Button>
-                  </Badge>
-                  <Badge count={100}>
-                    <Button variant="outline">Messages</Button>
-                  </Badge>
-                  <Badge dot>
-                    <Button variant="outline">Updates</Button>
-                  </Badge>
-                  <Badge status="success" text="Success" />
-                  <Badge status="error" text="Error" />
-                  <Badge status="warning" text="Warning" />
-                  <Badge status="info" text="Info" />
-                </Space>
-              </div>
-
-              <div>
-                <Heading level={3}>Card</Heading>
-                {/* 1 column mobile, 2 tablet, 3 desktop */}
-                <Row gutter={16}>
-                  <Col xs={24} sm={12} lg={8}>
-                    <Card title="Basic Card" bordered className="mb-3 mb-lg-0">
-                      <Paragraph>This is a basic card with title and content.</Paragraph>
+                    <Card
+                      title="Recent Activity"
+                      extra={<Button variant="link">View All</Button>}
+                      bordered
+                    >
+                      <Space direction="vertical" size="middle" className="w-100">
+                        <div>
+                          <Paragraph className="mb-1">New user registered</Paragraph>
+                          <Paragraph variant="muted" className="mb-0">
+                            2 minutes ago
+                          </Paragraph>
+                        </div>
+                        <Divider />
+                        <div>
+                          <Paragraph className="mb-1">Project deployed</Paragraph>
+                          <Paragraph variant="muted" className="mb-0">
+                            1 hour ago
+                          </Paragraph>
+                        </div>
+                      </Space>
                     </Card>
                   </Col>
-                  <Col xs={24} sm={12} lg={8}>
-                    <Card title="Hoverable Card" bordered hoverable className="mb-3 mb-lg-0">
-                      <Paragraph>Hover over this card to see the effect.</Paragraph>
-                    </Card>
-                  </Col>
-                  <Col xs={24} sm={12} lg={8}>
-                    <Card title="Card" extra={<Button variant="outline" size="sm">More</Button>} bordered>
-                      <Paragraph>Card with extra action in header.</Paragraph>
+
+                  <Col xs={24} md={12}>
+                    <Card title="Statistics" bordered hoverable>
+                      <Space direction="vertical" size="middle" className="w-100">
+                        <Flex justify="between">
+                          <Paragraph>Total Visits</Paragraph>
+                          <Paragraph>12,456</Paragraph>
+                        </Flex>
+                        <Divider />
+                        <Flex justify="between">
+                          <Paragraph>Active Users</Paragraph>
+                          <Paragraph>8,234</Paragraph>
+                        </Flex>
+                      </Space>
                     </Card>
                   </Col>
                 </Row>
-              </div>
-            </Space>
-          </Card>
+              </>
+            )}
 
-          {/* Feedback Components */}
-          <Card title="Feedback Components" bordered hoverable>
-            <Space direction="vertical" size="large" className="w-100">
-              <div>
-                <Heading level={3}>Alert</Heading>
-                <Space direction="vertical" size="middle" className="w-100">
-                  <Alert 
-                    type="success" 
-                    message="Success Alert"
-                    description="This is a success alert with description."
-                    showIcon
-                    closable
-                  />
-                  <Alert 
-                    type="info" 
-                    message="Info Alert"
-                    showIcon
-                    closable
-                  />
-                  <Alert 
-                    type="warning" 
-                    message="Warning Alert"
-                    description="This is a warning message."
-                    showIcon
-                    closable
-                  />
-                  <Alert 
-                    type="error" 
-                    message="Error Alert"
-                    closable
-                  />
-                </Space>
-              </div>
-            </Space>
-          </Card>
+            {/* Settings Section */}
+            {activeSection === 'settings' && (
+              <>
+                <div>
+                  <Heading level={1}>Settings</Heading>
+                  <Paragraph variant="muted">
+                    Customize your preferences
+                  </Paragraph>
+                </div>
 
-          {/* Button Showcase */}
-          <Card title="Button Components" bordered hoverable>
-            <Space direction="vertical" size="large" className="w-100">
-              <div>
-                <Heading level={3}>Button Variants</Heading>
-                {/* Wrap buttons on small screens */}
-                <Space size="middle" wrap className="flex-wrap">
-                  <Button variant="primary">Primary</Button>
-                  <Button variant="secondary">Secondary</Button>
-                  <Button variant="outline">Outline</Button>
-                  <Button variant="ghost">Ghost</Button>
-                  <Button variant="link">Link</Button>
-                </Space>
-              </div>
+                <Card title="Appearance" bordered>
+                  <Space direction="vertical" size="large" className="w-100">
+                    <div>
+                      <Paragraph className="mb-2">Theme Mode</Paragraph>
+                      <Space size="middle" wrap>
+                        <Button
+                          variant={theme === 'light' ? 'primary' : 'outline'}
+                          onClick={() => setTheme('light')}
+                        >
+                          ☀️ Light
+                        </Button>
+                        <Button
+                          variant={theme === 'dark' ? 'primary' : 'outline'}
+                          onClick={() => setTheme('dark')}
+                        >
+                          🌙 Dark
+                        </Button>
+                        <Button
+                          variant={theme === 'system' ? 'primary' : 'outline'}
+                          onClick={() => setTheme('system')}
+                        >
+                          💻 System
+                        </Button>
+                      </Space>
+                    </div>
 
-              <div>
-                <Heading level={3}>Button Sizes</Heading>
-                <Space size="middle" align="center" wrap className="flex-wrap">
-                  <Button variant="primary" size="sm">Small</Button>
-                  <Button variant="primary" size="md">Medium</Button>
-                  <Button variant="primary" size="lg">Large</Button>
-                </Space>
-              </div>
+                    <Divider />
 
-              <div>
-                <Heading level={3}>Button States</Heading>
-                {/* Wrap buttons on small screens */}
-                <Space size="middle" wrap className="flex-wrap">
-                  <Button variant="primary" disabled>Disabled</Button>
-                  <Button variant="primary" loading>Loading</Button>
-                  <Button variant="secondary" loading>Loading Secondary</Button>
-                  <Button variant="outline" loading>Loading Outline</Button>
+                    <div>
+                      <Paragraph className="mb-2">Color Variant</Paragraph>
+                      <Space size="middle" wrap>
+                        <Button
+                          variant={variant === 'base' ? 'primary' : 'outline'}
+                          onClick={() => setVariant('base')}
+                        >
+                          🎨 Base
+                        </Button>
+                        <Button
+                          variant={variant === 'sepia' ? 'primary' : 'outline'}
+                          onClick={() => setVariant('sepia')}
+                        >
+                          📜 Sepia
+                        </Button>
+                        <Button
+                          variant={variant === 'forest' ? 'primary' : 'outline'}
+                          onClick={() => setVariant('forest')}
+                        >
+                          🌲 Forest
+                        </Button>
+                        <Button
+                          variant={variant === 'ocean' ? 'primary' : 'outline'}
+                          onClick={() => setVariant('ocean')}
+                        >
+                          🌊 Ocean
+                        </Button>
+                      </Space>
+                    </div>
+                  </Space>
+                </Card>
+              </>
+            )}
+          </Space>
+        </Container>
+
+        {/* Footer */}
+        <Footer className="app-footer">
+          <Container maxWidth="xl">
+            <Row gutter={[16, 32]}>
+              <Col xs={24} sm={12} md={6}>
+                <Heading level={5}>Product</Heading>
+                <Space direction="vertical" size="small">
+                  <a href="#features" className="footer-link">
+                    Features
+                  </a>
+                  <a href="#pricing" className="footer-link">
+                    Pricing
+                  </a>
+                  <a href="#documentation" className="footer-link">
+                    Documentation
+                  </a>
                 </Space>
-              </div>
-            </Space>
-          </Card>
-        </Space>
-      </Container>
-    </ThemeProvider>
+              </Col>
+
+              <Col xs={24} sm={12} md={6}>
+                <Heading level={5}>Company</Heading>
+                <Space direction="vertical" size="small">
+                  <a href="#about" className="footer-link">
+                    About Us
+                  </a>
+                  <a href="#blog" className="footer-link">
+                    Blog
+                  </a>
+                  <a href="#contact" className="footer-link">
+                    Contact
+                  </a>
+                </Space>
+              </Col>
+
+              <Col xs={24} sm={12} md={6}>
+                <Heading level={5}>Resources</Heading>
+                <Space direction="vertical" size="small">
+                  <a href="#docs" className="footer-link">
+                    Documentation
+                  </a>
+                  <a href="#help" className="footer-link">
+                    Help Center
+                  </a>
+                  <a href="#community" className="footer-link">
+                    Community
+                  </a>
+                </Space>
+              </Col>
+
+              <Col xs={24} sm={12} md={6}>
+                <Heading level={5}>Legal</Heading>
+                <Space direction="vertical" size="small">
+                  <a href="#privacy" className="footer-link">
+                    Privacy Policy
+                  </a>
+                  <a href="#terms" className="footer-link">
+                    Terms of Service
+                  </a>
+                  <a href="#cookies" className="footer-link">
+                    Cookie Policy
+                  </a>
+                </Space>
+              </Col>
+            </Row>
+
+            <Divider />
+
+            <Flex
+              direction="column"
+              gap={16}
+              className="flex-sm-row justify-sm-between align-sm-center"
+            >
+              <Paragraph variant="muted" className="mb-0">
+                © 2024 Preact Component Library. All rights reserved.
+              </Paragraph>
+              <Space size="large">
+                <a href="#github" className="footer-social" title="GitHub">
+                  GitHub
+                </a>
+                <a href="#twitter" className="footer-social" title="Twitter">
+                  Twitter
+                </a>
+                <a href="#discord" className="footer-social" title="Discord">
+                  Discord
+                </a>
+              </Space>
+            </Flex>
+          </Container>
+        </Footer>
+      </Main>
+    </div>
   );
+}
+
+export function App() {
+  return (<ThemeProvider defaultTheme="system" defaultVariant="base"><AppContent /></ThemeProvider>);
 }

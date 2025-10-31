@@ -21,7 +21,8 @@
     "dev": "vite",
     "build": "vite build && npm run build:css",
     "build:css": "sass src/styles/index.scss dist/index.css --style compressed",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "type-check": "tsc --noEmit"
   },
   "dependencies": {
     "preact": "^10.27.2"

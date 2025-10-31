@@ -18,6 +18,19 @@ $spacing: (
   16: $spacing-unit * 16,  // 128px
 );
 
+// Export individual spacing values for direct use
+$spacing-0: 0;
+$spacing-1: $spacing-unit;        // 8px
+$spacing-2: $spacing-unit * 2;    // 16px
+$spacing-3: $spacing-unit * 3;    // 24px
+$spacing-4: $spacing-unit * 4;    // 32px
+$spacing-5: $spacing-unit * 5;    // 40px
+$spacing-6: $spacing-unit * 6;    // 48px
+$spacing-8: $spacing-unit * 8;    // 64px
+$spacing-10: $spacing-unit * 10;  // 80px
+$spacing-12: $spacing-unit * 12;  // 96px
+$spacing-16: $spacing-unit * 16;  // 128px
+
 // Typography
 $font-family-base: system-ui, Avenir, Helvetica, Arial, sans-serif;
 $font-family-mono: 'Courier New', Courier, monospace;
@@ -52,7 +65,7 @@ $line-heights: (
 );
 
 // Border radius
-$border-radius: (
+$border-radius-map: (
   none: 0,
   sm: 0.25rem,   // 4px
   base: 0.5rem,  // 8px
@@ -61,6 +74,12 @@ $border-radius: (
   xl: 1.5rem,    // 24px
   full: 9999px,
 );
+
+// Keep the old name for compatibility with mixins
+$border-radius: $border-radius-map;
+
+// Export default border-radius value
+$border-radius-base: 0.5rem;  // 8px default
 
 // Breakpoints
 $breakpoints: (
@@ -94,6 +113,8 @@ $shadows: (
 // Z-index scale
 $z-index: (
   dropdown: 1000,
+  sidebar: 1010,
+  navbar: 1020,
   sticky: 1020,
   fixed: 1030,
   modal-backdrop: 1040,
@@ -101,6 +122,17 @@ $z-index: (
   popover: 1060,
   tooltip: 1070,
 );
+
+// Export individual z-index values
+$z-index-dropdown: 1000;
+$z-index-sidebar: 1010;
+$z-index-navbar: 1020;
+$z-index-sticky: 1020;
+$z-index-fixed: 1030;
+$z-index-modal-backdrop: 1040;
+$z-index-modal: 1050;
+$z-index-popover: 1060;
+$z-index-tooltip: 1070;
 
 // Okha Color Palette - Warm, earthy tones inspired by ochre
 // All colors meet WCAG AA contrast requirements for accessibility

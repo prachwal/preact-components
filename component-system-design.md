@@ -39,6 +39,7 @@ $breakpoints: (
 W `src/styles/mixins.scss` dostępne są pomocnicze mixiny:
 
 #### @mixin responsive($breakpoint)
+
 Podstawowy mixin dla media queries:
 
 ```scss
@@ -49,6 +50,7 @@ Podstawowy mixin dla media queries:
 ```
 
 #### @mixin responsive-font($mobile, $tablet, $desktop)
+
 Responsywne rozmiary czcionek:
 
 ```scss
@@ -59,6 +61,7 @@ h1 {
 ```
 
 #### @mixin responsive-spacing($property, $mobile, $tablet, $desktop)
+
 Responsywne odstępy:
 
 ```scss
@@ -69,6 +72,7 @@ Responsywne odstępy:
 ```
 
 #### @mixin container-padding
+
 Automatyczne responsywne paddingi dla kontenerów:
 
 ```scss
@@ -79,6 +83,7 @@ Automatyczne responsywne paddingi dla kontenerów:
 ```
 
 #### @mixin hide-on($breakpoint) i @mixin show-between($min-bp, $max-bp)
+
 Ukrywanie i pokazywanie elementów na określonych breakpointach:
 
 ```scss
@@ -172,6 +177,7 @@ Komponent `Col` obsługuje responsywne breakpointy:
 ```
 
 Dostępne props dla `Col`:
+
 - `xs` - Extra small (< 480px) - bazowy
 - `sm` - Small (>= 640px)
 - `md` - Medium (>= 768px)
@@ -191,6 +197,7 @@ Komponent `Container` automatycznie dostosowuje max-width i padding:
 ```
 
 MaxWidth variants:
+
 - `sm`: 640px
 - `md`: 768px
 - `lg`: 1024px
@@ -201,6 +208,7 @@ MaxWidth variants:
 ### Best Practices - Mobile First
 
 1. **Rozpocznij od mobilnego layoutu**:
+
    ```scss
    .component {
      // Bazowe style dla mobile
@@ -216,6 +224,7 @@ MaxWidth variants:
    ```
 
 2. **Używaj Grid System z responsive props**:
+
    ```tsx
    <Row gutter={16}>
      <Col xs={24} md={12} lg={8}>
@@ -225,6 +234,7 @@ MaxWidth variants:
    ```
 
 3. **Stosuj responsive utility classes**:
+
    ```tsx
    <div className="flex-column flex-md-row gap-2 gap-md-4">
      {/* Vertical stack z małym gap na mobile */}
@@ -287,8 +297,6 @@ function App() {
 }
 ```
 
-
-
 ## Pełna Lista Elementów do Zaimplementowania
 
 Lista uporządkowana od najważniejszych (podstawowe komponenty używane najczęściej) do najmniej istotnych (zaawansowane lub rzadziej używane). Każdy komponent powinien mieć:
@@ -298,93 +306,242 @@ Lista uporządkowana od najważniejszych (podstawowe komponenty używane najczę
 - Index.ts dla eksportu.
 - Props zgodne z TypeScript, rozszerzające ComponentProps dla kompatybilności.
 
+**Legenda**: ✅ Zaimplementowane | 🚧 W trakcie | ❌ Do zrobienia
+
 ### 1. Layout i Struktura (Najważniejsze - podstawowa struktura aplikacji)
 
-- **Container**: Główny kontener z maksymalną szerokością i centrowaniem.
-- **Row**: Wiersz w systemie grid (elastyczny layout).
-- **Col**: Kolumna w systemie grid (z props dla szerokości, offsetu).
-- **Flex**: Komponent flexbox z props dla direction, justify, align.
-- **Space**: Komponent do dodawania odstępów między elementami (gap, vertical/horizontal).
-- **Divider**: Linia separatora z opcjami (vertical, dashed).
+- ✅ **Container**: Główny kontener z maksymalną szerokością i centrowaniem (fluid, maxWidth: sm/md/lg/xl/2xl).
+- ✅ **Row**: Wiersz w systemie grid z gutter spacing.
+- ✅ **Col**: Kolumna w systemie grid z responsive props (xs/sm/md/lg/xl, span, offset).
+- ✅ **Flex**: Komponent flexbox z props dla direction, justify, align, gap, wrap.
+- ✅ **Space**: Komponent do dodawania odstępów między elementami (size, direction, align, wrap).
+- ✅ **Divider**: Linia separatora z opcjami (orientation: horizontal/vertical, dashed, children dla tekstu).
+- ✅ **Section**: Semantyczny wrapper dla sekcji strony.
+- ✅ **Main**: Semantyczny wrapper dla głównej zawartości.
+- ✅ **Header**: Semantyczny wrapper dla nagłówka.
+- ✅ **Footer**: Semantyczny wrapper dla stopki.
+- ✅ **Div**: Uniwersalny wrapper z podstawowymi props.
+- ✅ **Sidebar**: Panel boczny z nawigacją (collapsible, responsive, overlay na mobile).
+- ✅ **Navbar**: Pasek nawigacyjny z hamburgerem i menu.
 
 ### 2. Formularze i Wejścia (Podstawowe interakcje użytkownika)
 
-- **Input**: Pole tekstowe z wariantami (password, search, textarea).
-- **Button**: Rozszerzenie istniejącego o warianty (primary, secondary, danger, size: small/medium/large, loading state).
-- **Select**: Dropdown z opcjami, wielokrotny wybór.
-- **Checkbox**: Checkbox pojedynczy i grupa.
-- **Radio**: Radio button pojedynczy i grupa.
-- **Switch**: Przełącznik on/off.
-- **Form**: Kontener formularza z walidacją (integracja z biblioteką jak yup lub native).
-- **InputNumber**: Pole numeryczne ze stepperami.
+- ✅ **Input**: Pole tekstowe z wariantami (type: text/password/email/number, prefix, suffix, error state, sizes).
+- ✅ **Button**: Rozszerzenie o warianty (primary/secondary/outline/ghost/link, sizes: sm/md/lg, loading state).
+- ✅ **Select**: Dropdown z opcjami (sizes, fullWidth, error state).
+- ✅ **Checkbox**: Checkbox pojedynczy z label (disabled, checked, indeterminate).
+- ✅ **Radio**: Radio button pojedynczy z label (disabled, checked).
+- ✅ **Switch**: Przełącznik on/off (sizes: small/medium, disabled, label).
+- ❌ **Form**: Kontener formularza z walidacją (integracja z biblioteką jak yup lub native).
+- ❌ **InputNumber**: Pole numeryczne ze stepperami.
+- ❌ **Textarea**: Wieloliniowe pole tekstowe z auto-resize.
 
 ### 3. Typografia i Treść (Rozszerzenie istniejących)
 
-- **Text**: Ogólny komponent tekstowy z props dla size, weight, color.
-- **Title**: Rozszerzenie Heading o poziomy (h1-h6) i dodatkowe props.
-- **Paragraph**: Rozszerzenie istniejącego o ellipsis, copyable.
-- **Link**: Rozszerzenie istniejącego o warianty (primary, secondary, disabled).
-- **Code**: Rozszerzenie istniejącego o syntax highlighting (integracja z Prism.js).
+- ✅ **Heading**: Nagłówki h1-h6 z props dla level.
+- ✅ **Paragraph**: Podstawowy komponent tekstowy z wariantami (variant: muted/small).
+- ✅ **Link**: Link z podstawowymi stylami.
+- ✅ **Code**: Blok kodu z podstawowymi stylami.
+- ❌ **Text**: Ogólny komponent tekstowy z props dla size, weight, color, ellipsis, copyable.
+- ❌ **Title**: Rozszerzenie Heading o dodatkowe props (ellipsis, underline).
 
 ### 4. Nawigacja
 
-- **Menu**: Menu poziome/pionowe z submenu, active state.
-- **Breadcrumb**: Ścieżka nawigacyjna.
-- **Pagination**: Paginacja z kontrolami (prev/next, page size).
-- **Tabs**: Zakładki z zawartością.
-- **Dropdown**: Dropdown menu z triggerami (click, hover).
+- ❌ **Menu**: Menu poziome/pionowe z submenu, active state, icons.
+- ❌ **Breadcrumb**: Ścieżka nawigacyjna z separatorami.
+- ❌ **Pagination**: Paginacja z kontrolami (prev/next, page size).
+- ❌ **Tabs**: Zakładki z zawartością i różnymi pozycjami (top/bottom/left/right).
+- ❌ **Dropdown**: Dropdown menu z triggerami (click, hover).
 
 ### 5. Wyświetlanie Danych
 
-- **Table**: Tabela z sortowaniem, filtrowaniem, paginacją.
-- **List**: Lista elementów z opcjami (bordered, size).
-- **Card**: Karta z header, body, actions.
-- **Badge**: Odznaka z liczbą lub kropką.
-- **Avatar**: Awatar użytkownika (obrazek, inicjały).
-- **Tag**: Tag z opcjami (closable, color).
-- **Progress**: Pasek postępu (line, circle).
-- **Skeleton**: Placeholder ładowania.
+- ✅ **Card**: Karta z header (title, extra), body, hoverable, bordered, loading state.
+- ✅ **Badge**: Odznaka z liczbą (count, max count), kropką (dot), statusem (status: success/error/warning/info).
+- ❌ **Table**: Tabela z sortowaniem, filtrowaniem, paginacją.
+- ❌ **List**: Lista elementów z opcjami (bordered, size, grid layout).
+- ❌ **Avatar**: Awatar użytkownika (obrazek, inicjały, sizes, shapes).
+- ❌ **Tag**: Tag z opcjami (closable, color variants).
+- ❌ **Progress**: Pasek postępu (line, circle, różne kolory).
+- ❌ **Skeleton**: Placeholder ładowania dla różnych typów zawartości.
+- ❌ **Descriptions**: Lista opisów key-value dla szczegółów obiektów.
 
 ### 6. Feedback i Komunikacja
 
-- **Alert**: Alert z typami (success, warning, error, info).
-- **Message**: Globalne wiadomości (toast notifications).
-- **Notification**: Powiadomienia z przyciskami akcji.
-- **Modal**: Modalne okno z confirm dialog.
-- **Drawer**: Panel boczny (left/right/top/bottom).
-- **Tooltip**: Tooltip z pozycjonowaniem.
-- **Popover**: Popover z zawartością.
-- **Spin**: Spinner ładowania.
-- **Result**: Komponent dla wyników akcji (success, error, 404).
+- ✅ **Alert**: Alert z typami (success/info/warning/error, message, description, closable, showIcon).
+- ❌ **Message**: Globalne wiadomości (toast notifications) - wymagane Portal.
+- ❌ **Notification**: Powiadomienia z przyciskami akcji - wymagane Portal.
+- ❌ **Modal**: Modalne okno z confirm dialog - wymagane Portal.
+- ❌ **Drawer**: Panel boczny (left/right/top/bottom) - wymagane Portal.
+- ❌ **Tooltip**: Tooltip z pozycjonowaniem - wymagane Portal lub floating-ui.
+- ❌ **Popover**: Popover z zawartością - wymagane Portal lub floating-ui.
+- ❌ **Spin**: Spinner ładowania (różne rozmiary i kolory).
+- ❌ **Result**: Komponent dla wyników akcji (success, error, 404, 403, 500).
 
 ### 7. Zaawansowane Komponenty (Mniej Istotne - Specyficzne Użycia)
 
-- **DatePicker**: Wybór daty z zakresem.
-- **TimePicker**: Wybór czasu.
-- **Calendar**: Kalendarz miesięczny.
-- **Upload**: Upload plików z drag&drop, preview.
-- **Transfer**: Transfer między dwoma listami.
-- **Tree**: Drzewo hierarchiczne.
-- **Cascader**: Kaskadowy wybór.
-- **AutoComplete**: Autouzupełnianie.
-- **Mentions**: Wzmianki (@user).
-- **Rate**: Ocena gwiazdkami.
-- **Slider**: Suwak wartości.
-- **Steps**: Krokowy proces (wizard).
+- ❌ **DatePicker**: Wybór daty z zakresem - wymagana biblioteka zewnętrzna.
+- ❌ **TimePicker**: Wybór czasu - wymagana biblioteka zewnętrzna.
+- ❌ **Calendar**: Kalendarz miesięczny - wymagana biblioteka zewnętrzna.
+- ❌ **Upload**: Upload plików z drag&drop, preview.
+- ❌ **Transfer**: Transfer między dwoma listami.
+- ❌ **Tree**: Drzewo hierarchiczne.
+- ❌ **Cascader**: Kaskadowy wybór.
+- ❌ **AutoComplete**: Autouzupełnianie.
+- ❌ **Mentions**: Wzmianki (@user).
+- ❌ **Rate**: Ocena gwiazdkami.
+- ❌ **Slider**: Suwak wartości.
+- ❌ **Steps**: Krokowy proces (wizard).
 
 ### 8. Ikony i Multimedia (Uzupełnienie)
 
-- **Icon**: Komponent ikon z biblioteką (np. Lucide React).
-- **Image**: Obrazek z lazy loading, preview.
-- **Carousel**: Karuzela obrazów.
+- ✅ **Logo**: Komponent logo z podstawowymi stylami.
+- ❌ **Icon**: Komponent ikon z biblioteką (np. Lucide React).
+- ❌ **Image**: Obrazek z lazy loading, preview, placeholder.
+- ❌ **Carousel**: Karuzela obrazów z nawigacją.
 
 ### 9. Narzędzia Deweloperskie (Najmniej Istotne - Dla Debugowania)
 
-- **ConfigProvider**: Provider dla globalnych ustawień (theme, locale).
-- **ThemeProvider**: Provider dla ręcznego przełączania motywów (light/dark/system).
-- **Affix**: Przyczepiony element (sticky).
-- **Anchor**: Spis treści z linkami.
-- **BackTop**: Przycisk "do góry".
+- ✅ **ThemeProvider**: Provider dla ręcznego przełączania motywów (light/dark/system, variants: base/sepia/forest/ocean).
+- ❌ **ConfigProvider**: Provider dla globalnych ustawień (theme, locale, componentSize).
+- ❌ **Affix**: Przyczepiony element (sticky).
+- ❌ **Anchor**: Spis treści z linkami.
+- ❌ **BackTop**: Przycisk "do góry".
+
+## Status Implementacji
+
+### Zaimplementowane Komponenty (29)
+
+**Layout (13)**: Container, Row, Col, Flex, Space, Divider, Section, Main, Header, Footer, Div, Sidebar, Navbar  
+**Formularze (6)**: Input, Button, Select, Checkbox, Radio, Switch  
+**Typografia (4)**: Heading, Paragraph, Link, Code  
+**Wyświetlanie (2)**: Card, Badge  
+**Feedback (1)**: Alert  
+**Multimedia (1)**: Logo  
+**Narzędzia (1)**: ThemeProvider
+
+**Build Status**: ✅ **Wszystkie komponenty kompilują się poprawnie!**
+
+### Do Zaimplementowania (Priorytet Wysoki)
+
+**Nawigacja**: Menu, Breadcrumb  
+**Feedback**: Modal, Drawer, Tooltip, Spin  
+**Formularze**: Form, Textarea, InputNumber  
+**Wyświetlanie**: Table, List, Avatar, Tag  
+
+### Do Zaimplementowania (Priorytet Średni)
+
+**Nawigacja**: Pagination, Tabs, Dropdown  
+**Wyświetlanie**: Progress, Skeleton, Descriptions  
+**Feedback**: Message, Notification, Popover, Result  
+**Typografia**: Text (rozszerzony), Title  
+
+### Do Zaimplementowania (Priorytet Niski)
+
+**Zaawansowane**: DatePicker, Upload, Tree, Steps, Rate, Slider, itp.  
+**Ikony**: Icon, Image, Carousel  
+**Narzędzia**: ConfigProvider, Affix, Anchor, BackTop
+
+## Specyfikacje Nowych Komponentów
+
+### Sidebar - Panel Boczny Nawigacyjny
+
+Komponent panelu bocznego z nawigacją, idealny do aplikacji dashboardowych.
+
+**Props**:
+
+- `collapsed`: boolean - Stan zwinięcia sidebara
+- `onCollapse`: (collapsed: boolean) => void - Callback przy zmianie stanu
+- `width`: number - Szerokość w px (default: 256)
+- `collapsedWidth`: number - Szerokość gdy zwinięty (default: 80)
+- `breakpoint`: 'xs' | 'sm' | 'md' | 'lg' | 'xl' - Breakpoint dla auto-collapse
+- `theme`: 'light' | 'dark' - Motyw sidebara
+- `overlay`: boolean - Czy pokazać overlay na mobile (default: true)
+
+**Funkcjonalność**:
+
+- Responsywny - automatyczne collapse na urządzeniach mobilnych
+- Overlay backdrop na mobile z możliwością zamknięcia
+- Płynne animacje przejścia
+- Fixed position z scroll dla długiej zawartości
+- Zachowanie stanu w localStorage (opcjonalnie)
+- Integracja z system motywów
+
+**Style**:
+
+- Transition dla width przy collapse/expand
+- Z-index odpowiedni dla overlay
+- Box-shadow dla głębi
+- Responsive breakpoints
+
+### Navbar - Pasek Nawigacyjny
+
+Główny pasek nawigacyjny aplikacji z hamburgerem i menu.
+
+**Props**:
+
+- `logo`: VNode - Element logo
+- `menu`: VNode - Menu items
+- `extra`: VNode - Dodatkowe elementy (np. user menu)
+- `fixed`: boolean - Fixed top position (default: false)
+- `transparent`: boolean - Transparentne tło (default: false)
+- `onMenuToggle`: (open: boolean) => void - Callback dla hamburger menu
+- `showMenuButton`: boolean - Czy pokazać hamburger (default: true na mobile)
+
+**Funkcjonalność**:
+
+- Hamburger menu integration
+- Responsive - ukrywa menu items na mobile, pokazuje hamburger
+- Fixed navbar z shadow przy scroll
+- Smooth transitions
+- Integracja z Sidebar (otwieranie/zamykanie)
+- Mobile menu overlay lub drawer
+
+**Style**:
+
+- Flexbox layout dla alignment
+- Z-index dla fixed position
+- Animacje hamburger icon
+- Backdrop blur opcjonalnie
+
+### Menu - System Menu Nawigacyjny
+
+Komponent menu do nawigacji w aplikacji.
+
+**Props**:
+
+- `mode`: 'horizontal' | 'vertical' | 'inline' - Tryb wyświetlania
+- `items`: MenuItem[] - Array elementów menu
+- `selectedKeys`: string[] - Aktywne klucze
+- `openKeys`: string[] - Otwarte submenu (dla vertical)
+- `onSelect`: (key: string) => void - Callback przy wyborze
+- `theme`: 'light' | 'dark' - Motyw menu
+- `collapsible`: boolean - Czy można zwijać submenu
+- `inlineCollapsed`: boolean - Stan zwinięcia dla inline mode
+
+**MenuItem Interface**:
+
+```typescript
+interface MenuItem {
+  key: string;
+  label: string | VNode;
+  icon?: VNode;
+  children?: MenuItem[];
+  disabled?: boolean;
+  danger?: boolean;
+  href?: string;
+  onClick?: () => void;
+}
+```
+
+**Funkcjonalność**:
+
+- Nested submenu support
+- Active state highlighting
+- Icons integration
+- Dividers between groups
+- Collapsible sections
+- Keyboard navigation
+- Routing integration (href lub onClick)
 
 ## Struktura SCSS
 

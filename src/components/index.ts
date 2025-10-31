@@ -18,6 +18,8 @@ export * from './col';
 export * from './flex';
 export * from './space';
 export * from './divider';
+export * from './sidebar';
+export * from './navbar';
 
 // Form components
 export * from './input';
