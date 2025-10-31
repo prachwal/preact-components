@@ -25,7 +25,7 @@
     "type-check": "tsc --noEmit",
     "test": "vitest",
     "test:ui": "vitest --ui",
-    "test:coverage": "vitest --coverage"
+    "test:coverage": "vitest --coverage",
     "docs:generate": "typedoc",
     "docs:watch": "typedoc --watch",
     "docs:serve": "npm run docs:generate && npx http-server docs -p 8080 -o"
