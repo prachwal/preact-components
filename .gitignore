@@ -12,6 +12,17 @@ dist
 dist-ssr
 *.local
 
+# Documentation (dynamically generated)
+docs
+
+# Test coverage (dynamically generated)
+coverage
+.nyc_output
+
+# Build artifacts (dynamically generated)
+*.tsbuildinfo
+.cache
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
